@@ -1,0 +1,3 @@
+# SimplifiedCRM
+
+## Screenshots
