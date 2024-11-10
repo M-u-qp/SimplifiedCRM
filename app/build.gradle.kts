@@ -4,6 +4,7 @@ plugins {
 
     alias(libs.plugins.dagger.hilt.android)
     alias(libs.plugins.jetbrains.kotlin.kapt)
+    alias(libs.plugins.plugin.serialization)
 }
 
 android {
@@ -104,4 +105,7 @@ dependencies {
 
     //datastore
     implementation(libs.androidx.datastore.preferences)
+
+    //serialization
+    implementation(libs.kotlinx.serialization.json)
 }

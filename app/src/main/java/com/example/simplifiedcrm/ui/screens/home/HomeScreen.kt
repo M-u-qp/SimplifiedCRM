@@ -7,6 +7,8 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
+import com.example.simplifiedcrm.R
 
 @Composable
 fun HomeScreen() {
@@ -16,7 +18,7 @@ fun HomeScreen() {
         contentAlignment = Alignment.Center
     ) {
         Text(
-            text = "Main Screen",
+            text = stringResource(id = R.string.home),
             style = MaterialTheme.typography.titleSmall
         )
     }

@@ -3,4 +3,14 @@
 
     <string name="home">Главная</string>
     <string name="profile">Профиль</string>
+
+    <string name="name">Имя</string>
+    <string name="login">Логин</string>
+    <string name="password">Пароль</string>
+    <string name="sign_in">Войти</string>
+    <string name="sign_out">Выйти</string>
+    <string name="register">Зарегистрироваться</string>
+    <string name="fill_in_all_fields">Заполните все поля</string>
+    <string name="login_already_exists">Логин уже существует</string>
+    <string name="username_or_password_was_entered_incorrectly">Неправильно введён логин или пароль</string>
 </resources>

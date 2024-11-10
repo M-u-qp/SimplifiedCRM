@@ -7,8 +7,8 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.ui.Modifier
+import androidx.navigation.compose.rememberNavController
 import com.example.simplifiedcrm.ui.navigation.navgraph.NavGraph
-import com.example.simplifiedcrm.ui.navigation.navgraph.Route
 import com.example.simplifiedcrm.ui.theme.SimplifiedCRMTheme
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -23,7 +23,7 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    NavGraph(startDestination = Route.Navigation.route)
+                    NavGraph(rememberNavController())
                 }
             }
         }

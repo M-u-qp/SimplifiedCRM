@@ -3,4 +3,14 @@
 
     <string name="home">Main</string>
     <string name="profile">Profile</string>
+
+    <string name="name">Name</string>
+    <string name="login">Login</string>
+    <string name="password">Password</string>
+    <string name="sign_in">Sign in</string>
+    <string name="sign_out">Sign out</string>
+    <string name="register">Register</string>
+    <string name="fill_in_all_fields">Fill in all the fields</string>
+    <string name="login_already_exists">The login already exists</string>
+    <string name="username_or_password_was_entered_incorrectly">The username or password was entered incorrectly</string>
 </resources>
