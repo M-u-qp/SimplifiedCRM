@@ -4,6 +4,9 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.FabPosition
+import androidx.compose.material3.FloatingActionButton
+import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
@@ -17,6 +20,8 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.ImageBitmap
+import androidx.compose.ui.res.imageResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -68,7 +73,8 @@ fun NavGraph(navController: NavHostController) {
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(horizontal = 16.dp)
-                        .clip(RoundedCornerShape(topStart = 12.dp, topEnd = 12.dp)),
+                        .padding(bottom = 10.dp)
+                        .clip(RoundedCornerShape(12.dp)),
                     items = bottomNavigationItems,
                     selected = selectedItem,
                     onItemClick = { index ->
@@ -86,7 +92,24 @@ fun NavGraph(navController: NavHostController) {
                     }
                 )
             }
-        }
+        },
+        floatingActionButton = {
+            if(isBottomBarVisible) {
+                FloatingActionButton(
+                    onClick = {
+
+                    },
+                    contentColor = MaterialTheme.colorScheme.onPrimary,
+                    containerColor = MaterialTheme.colorScheme.primary
+                ) {
+                    Icon(
+                        bitmap = ImageBitmap.imageResource(id = R.drawable.icons8_plus),
+                        contentDescription = null
+                    )
+                }
+            }
+        },
+        floatingActionButtonPosition = FabPosition.Center
     ) { paddingValues ->
         Surface(
             modifier = Modifier.fillMaxSize(),
@@ -129,6 +152,7 @@ fun NavGraph(navController: NavHostController) {
         }
     }
 }
+
 private fun navigateToTab(navController: NavController, route: String) {
     navController.navigate(route) {
         navController.graph.startDestinationRoute?.let { screen ->
