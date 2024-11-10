@@ -1,9 +1,11 @@
 package com.example.simplifiedcrm.ui.screens.onboarding
 
+import android.content.Context
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.simplifiedcrm.R
 import com.example.simplifiedcrm.data.model.User
 import com.example.simplifiedcrm.data.repository.UserRepository
 import com.example.simplifiedcrm.data.utils.Result
@@ -33,6 +35,15 @@ class OnboardingViewModel @Inject constructor(
         checkUserSignInStatus()
     }
 
+    private fun checkUserSignInStatus() {
+        viewModelScope.launch {
+            val isSignIn = userRepository.isUserSignedIn()
+            if (isSignIn) {
+                _navigateToHome.value = true
+            }
+        }
+    }
+
    override fun resetUser() {
         _user.update {
             it.copy(
@@ -43,20 +54,15 @@ class OnboardingViewModel @Inject constructor(
         }
     }
 
-    private fun checkUserSignInStatus() {
+    override fun registerNewUser(context: Context) {
         viewModelScope.launch {
-            val isSignIn = userRepository.isUserSignedIn()
-            if (isSignIn) {
-                _navigateToHome.value = true
-            }
-        }
-    }
-
-    override fun registerNewUser() {
-        viewModelScope.launch {
-            when (val result = userRepository.registerNewUser(user.value)) {
-                is Result.Success -> { _navigateToHome.value = true }
-                is Result.Error -> { _error.value = result.message }
+            if (user.value.name.isBlank() || user.value.login.isBlank() || user.value.password.isBlank()) {
+                _error.value = context.getString(R.string.fields_cannot_be_empty)
+            } else {
+                when (val result = userRepository.registerNewUser(user.value)) {
+                    is Result.Success -> { _navigateToHome.value = true }
+                    is Result.Error -> { _error.value = result.message }
+                }
             }
         }
     }

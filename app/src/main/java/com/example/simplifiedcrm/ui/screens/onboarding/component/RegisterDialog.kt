@@ -16,14 +16,15 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.example.simplifiedcrm.R
 import com.example.simplifiedcrm.data.model.User
 import com.example.simplifiedcrm.ui.screens.onboarding.OnboardingEvent
-import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -31,10 +32,12 @@ import kotlinx.coroutines.launch
 fun RegisterDialog(
     isRegisterDialog:(Boolean) -> Unit,
     user: User,
-    scope: CoroutineScope,
     event: OnboardingEvent,
     error: MutableState<Boolean>
 ) {
+    val context = LocalContext.current
+    val scope = rememberCoroutineScope()
+
     BasicAlertDialog(onDismissRequest = {
         isRegisterDialog(false)
         event.resetUser()
@@ -45,7 +48,8 @@ fun RegisterDialog(
                 .wrapContentWidth()
                 .wrapContentHeight(),
             shape = MaterialTheme.shapes.medium,
-            tonalElevation = AlertDialogDefaults.TonalElevation
+            tonalElevation = AlertDialogDefaults.TonalElevation,
+            color = MaterialTheme.colorScheme.background
         ) {
             Column(
                 modifier = Modifier.padding(16.dp),
@@ -57,13 +61,15 @@ fun RegisterDialog(
                         scope.launch {
                             event.updateName(it)
                         }
+                        error.value = false
                     },
                     label = {
                         Text(
                             text = stringResource(id = R.string.name),
                             style = MaterialTheme.typography.bodyMedium
                         )
-                    }
+                    },
+                    isError = error.value
                 )
                 OutlinedTextField(
                     value = user.login,
@@ -88,17 +94,19 @@ fun RegisterDialog(
                         scope.launch {
                             event.updatePassword(it)
                         }
+                        error.value = false
                     },
                     label = {
                         Text(
                             text = stringResource(id = R.string.password),
                             style = MaterialTheme.typography.bodyMedium
                         )
-                    }
+                    },
+                    isError = error.value
                 )
                 Spacer(modifier = Modifier.size(10.dp))
                 Button(
-                    onClick = { event.registerNewUser() },
+                    onClick = { event.registerNewUser(context) },
                     shape = MaterialTheme.shapes.medium
                 ) {
                     Text(

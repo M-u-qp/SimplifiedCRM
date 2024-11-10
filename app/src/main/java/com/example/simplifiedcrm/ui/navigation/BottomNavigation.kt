@@ -43,11 +43,11 @@ fun BottomNavigation(
                             bitmap = ImageBitmap.imageResource(id = item.icon),
                             contentDescription = null
                         )
-                        Spacer(modifier = Modifier.size(3.dp))
-                        Text(
-                            text = item.text,
-                            style = MaterialTheme.typography.labelSmall
-                        )
+//                        Spacer(modifier = Modifier.size(3.dp))
+//                        Text(
+//                            text = item.text,
+//                            style = MaterialTheme.typography.labelSmall
+//                        )
                     }
                 },
                 colors = NavigationBarItemDefaults.colors(

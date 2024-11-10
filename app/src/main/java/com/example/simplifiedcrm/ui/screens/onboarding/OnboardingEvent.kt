@@ -1,7 +1,9 @@
 package com.example.simplifiedcrm.ui.screens.onboarding
 
+import android.content.Context
+
 interface OnboardingEvent {
-    fun registerNewUser()
+    fun registerNewUser(context: Context)
     fun signIn(login: String, password: String)
     fun updateName(newName: String)
     fun updateLogin(newLogin: String)

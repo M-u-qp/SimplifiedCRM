@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.size
 import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
@@ -13,6 +14,7 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -26,6 +28,8 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.simplifiedcrm.R
+import com.example.simplifiedcrm.data.model.User
+import com.example.simplifiedcrm.ui.screens.onboarding.component.Logo
 import com.example.simplifiedcrm.ui.screens.onboarding.component.RegisterDialog
 import kotlinx.coroutines.launch
 
@@ -39,7 +43,6 @@ fun OnboardingScreen(
     var isRegisterDialog by remember { mutableStateOf(false) }
     val user = viewModel.user.collectAsState().value
     val context = LocalContext.current
-    val scope = rememberCoroutineScope()
 
     val error = remember { mutableStateOf(false) }
 
@@ -57,7 +60,42 @@ fun OnboardingScreen(
     }
 
     Column(
-        modifier = Modifier.fillMaxSize(),
+        modifier = Modifier
+            .fillMaxSize(),
+        verticalArrangement = Arrangement.SpaceEvenly
+    ) {
+        Logo(modifier = Modifier.fillMaxWidth())
+        OnboardingContent(
+            modifier = Modifier.fillMaxWidth(),
+            user = user,
+            event = event,
+            error = error,
+            isRegisterDialog = { isRegisterDialog = it }
+        )
+    }
+
+    if (isRegisterDialog) {
+        RegisterDialog(
+            isRegisterDialog = { isRegisterDialog = it },
+            error = error,
+            event = event,
+            user = user
+        )
+    }
+}
+
+@Composable
+private fun OnboardingContent(
+    modifier: Modifier = Modifier,
+    user: User,
+    event: OnboardingEvent,
+    error: MutableState<Boolean>,
+    isRegisterDialog: (Boolean) -> Unit
+) {
+    val scope = rememberCoroutineScope()
+
+    Column(
+        modifier = modifier,
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
@@ -105,7 +143,7 @@ fun OnboardingScreen(
             )
         }
         TextButton(onClick = {
-            isRegisterDialog = !isRegisterDialog
+            isRegisterDialog(true)
             event.resetUser()
             error.value = false
         }) {
@@ -114,14 +152,5 @@ fun OnboardingScreen(
                 style = MaterialTheme.typography.bodySmall
             )
         }
-    }
-    if (isRegisterDialog) {
-        RegisterDialog(
-            isRegisterDialog = { isRegisterDialog = it },
-            error = error,
-            event = event,
-            scope = scope,
-            user = user
-        )
     }
 }
