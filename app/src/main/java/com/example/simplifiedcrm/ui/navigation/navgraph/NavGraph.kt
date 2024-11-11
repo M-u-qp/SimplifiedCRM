@@ -39,15 +39,18 @@ import com.example.simplifiedcrm.ui.screens.onboarding.OnboardingScreen
 import com.example.simplifiedcrm.ui.screens.onboarding.OnboardingViewModel
 import com.example.simplifiedcrm.ui.screens.profile.ProfileScreen
 import com.example.simplifiedcrm.ui.screens.profile.ProfileViewModel
+import com.example.simplifiedcrm.ui.screens.tasks.TasksScreen
 
 @Composable
 fun NavGraph(navController: NavHostController) {
 
     val homeText = stringResource(id = R.string.home)
+    val tasksText = stringResource(id = R.string.tasks)
     val profileText = stringResource(id = R.string.profile)
     val bottomNavigationItems = remember {
         listOf(
             BottomNavigationItem(icon = R.drawable.icons8_home, text = homeText),
+            BottomNavigationItem(icon = R.drawable.icons8_tasks, text = tasksText),
             BottomNavigationItem(icon = R.drawable.icons8_user, text = profileText)
         )
     }
@@ -57,12 +60,14 @@ fun NavGraph(navController: NavHostController) {
     selectedItem = remember(key1 = backstackState) {
         when (backstackState?.destination?.route) {
             Route.HomeScreen.route -> 0
-            Route.ProfileScreen.route -> 1
+            Route.TasksScreen.route -> 1
+            Route.ProfileScreen.route -> 2
             else -> 0
         }
     }
     val isBottomBarVisible = remember(key1 = backstackState) {
         backstackState?.destination?.route == Route.HomeScreen.route ||
+                backstackState?.destination?.route == Route.TasksScreen.route ||
                 backstackState?.destination?.route == Route.ProfileScreen.route
     }
 
@@ -86,6 +91,11 @@ fun NavGraph(navController: NavHostController) {
 
                             1 -> navigateToTab(
                                 navController = navController,
+                                route = Route.TasksScreen.route
+                            )
+
+                            2 -> navigateToTab(
+                                navController = navController,
                                 route = Route.ProfileScreen.route
                             )
                         }
@@ -94,7 +104,7 @@ fun NavGraph(navController: NavHostController) {
             }
         },
         floatingActionButton = {
-            if(isBottomBarVisible) {
+            if (isBottomBarVisible) {
                 FloatingActionButton(
                     onClick = {
 
@@ -137,6 +147,9 @@ fun NavGraph(navController: NavHostController) {
                         }
                         composable(route = Route.HomeScreen.route) {
                             HomeScreen()
+                        }
+                        composable(route = Route.TasksScreen.route) {
+                            TasksScreen()
                         }
                         composable(route = Route.ProfileScreen.route) {
                             val viewModel: ProfileViewModel = hiltViewModel()

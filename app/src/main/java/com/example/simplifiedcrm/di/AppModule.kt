@@ -1,6 +1,5 @@
 package com.example.simplifiedcrm.di
 
-import android.app.Application
 import android.content.Context
 import androidx.datastore.core.DataStore
 import androidx.datastore.core.handlers.ReplaceFileCorruptionHandler
@@ -8,6 +7,9 @@ import androidx.datastore.preferences.core.PreferenceDataStoreFactory
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.emptyPreferences
 import androidx.datastore.preferences.preferencesDataStoreFile
+import androidx.room.Room
+import com.example.simplifiedcrm.data.local.database.TaskDao
+import com.example.simplifiedcrm.data.local.database.TaskDatabase
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -41,12 +43,33 @@ import javax.inject.Singleton
     @Provides
     @Singleton
     fun providePreferenceDataStore(
-        application: Application,
+        @ApplicationContext context: Context,
         scope: CoroutineScope
     ): DataStore<Preferences> =
         PreferenceDataStoreFactory.create(
             corruptionHandler = ReplaceFileCorruptionHandler(produceNewData = { emptyPreferences() }),
-            produceFile = { application.preferencesDataStoreFile(USER_PREFERENCES) },
+            produceFile = { context.preferencesDataStoreFile(USER_PREFERENCES) },
             scope = scope.plus(Dispatchers.IO + SupervisorJob())
         )
+
+    @Provides
+    @Singleton
+    fun provideTaskDatabase(
+        @ApplicationContext context: Context
+    ): TaskDatabase {
+//        return Room.databaseBuilder(
+        return Room.inMemoryDatabaseBuilder(
+            context = context,
+            klass = TaskDatabase::class.java,
+//            name = TASK_DB_NAME
+        )
+            .fallbackToDestructiveMigration()
+            .build()
+    }
+
+    @Provides
+    @Singleton
+    fun provideTaskDao(
+        taskDatabase: TaskDatabase
+    ): TaskDao = taskDatabase.taskDao
 }
