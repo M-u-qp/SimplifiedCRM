@@ -39,6 +39,8 @@ import com.example.simplifiedcrm.ui.screens.onboarding.OnboardingScreen
 import com.example.simplifiedcrm.ui.screens.onboarding.OnboardingViewModel
 import com.example.simplifiedcrm.ui.screens.profile.ProfileScreen
 import com.example.simplifiedcrm.ui.screens.profile.ProfileViewModel
+import com.example.simplifiedcrm.ui.screens.task_creation.TaskCreationScreen
+import com.example.simplifiedcrm.ui.screens.task_creation.TaskCreationViewModel
 import com.example.simplifiedcrm.ui.screens.tasks.TasksScreen
 
 @Composable
@@ -106,9 +108,7 @@ fun NavGraph(navController: NavHostController) {
         floatingActionButton = {
             if (isBottomBarVisible) {
                 FloatingActionButton(
-                    onClick = {
-
-                    },
+                    onClick = { navController.navigate(Route.TaskCreationScreen.route) },
                     contentColor = MaterialTheme.colorScheme.onPrimary,
                     containerColor = MaterialTheme.colorScheme.primary
                 ) {
@@ -156,6 +156,15 @@ fun NavGraph(navController: NavHostController) {
                             ProfileScreen(
                                 viewModel = viewModel,
                                 navigateToLogin = { navController.navigate(Route.AppStartNavigation.route) }
+                            )
+                        }
+                        composable(route = Route.TaskCreationScreen.route) {
+                            val viewModel: TaskCreationViewModel = hiltViewModel()
+                            TaskCreationScreen(
+                                viewModel = viewModel,
+                                event = viewModel,
+                                navigateToHome = { navController.navigate(Route.HomeScreen.route) },
+                                navigateUp = { navController.navigateUp() }
                             )
                         }
                     }

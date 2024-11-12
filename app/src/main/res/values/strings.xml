@@ -16,4 +16,19 @@
     <string name="fields_cannot_be_empty">Поля не могут быть пустыми</string>
     <string name="login_already_exists">Логин уже существует</string>
     <string name="username_or_password_was_entered_incorrectly">Неправильно введён логин или пароль</string>
+
+    <string name="FCs">ФИО</string>
+    <string name="phone_number">Номер телефона</string>
+    <string name="email">Электронная почта</string>
+    <string name="marking">Пометка</string>
+    <string name="description_task">Описание задачи</string>
+    <string name="product_name">Название товара</string>
+    <string name="product_price">Цена товара</string>
+    <string name="delivery_name">Название доставка</string>
+    <string name="delivery_price">Цена доставки</string>
+    <string name="create_task">Создать задачу</string>
+    <string name="creating_task">Создание задачи</string>
+    <string name="client">Клиент</string>
+    <string name="product">Товар</string>
+    <string name="delivery">Доставка</string>
 </resources>

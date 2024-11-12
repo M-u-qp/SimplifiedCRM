@@ -10,6 +10,7 @@ import com.example.simplifiedcrm.data.model.User
 import com.example.simplifiedcrm.data.repository.UserRepository
 import com.example.simplifiedcrm.data.utils.Result
 import dagger.hilt.android.lifecycle.HiltViewModel
+import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -19,7 +20,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class OnboardingViewModel @Inject constructor(
-    private val userRepository: UserRepository
+    private val userRepository: UserRepository,
+    @ApplicationContext context: Context
 ) : ViewModel(), OnboardingEvent {
 
     private val _user = MutableStateFlow(User())
@@ -54,10 +56,11 @@ class OnboardingViewModel @Inject constructor(
         }
     }
 
-    override fun registerNewUser(context: Context) {
+    private val cannotBeEmpty = context.getString(R.string.fields_cannot_be_empty)
+    override fun registerNewUser() {
         viewModelScope.launch {
             if (user.value.name.isBlank() || user.value.login.isBlank() || user.value.password.isBlank()) {
-                _error.value = context.getString(R.string.fields_cannot_be_empty)
+                _error.value = cannotBeEmpty
             } else {
                 when (val result = userRepository.registerNewUser(user.value)) {
                     is Result.Success -> { _navigateToHome.value = true }

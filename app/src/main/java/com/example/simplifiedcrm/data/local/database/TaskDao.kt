@@ -22,11 +22,13 @@ interface TaskDao {
     @Query("SELECT * FROM task_table ORDER BY timestamp DESC")
     fun getAllTasksSortByDate(): PagingSource<Int, Task>
 
+    @Query("SELECT * FROM task_table ORDER BY :statusTask DESC")
+    fun getAllTasksSortByStatus(statusTask: String): PagingSource<Int, Task>
+
     @Query(
         "SELECT TOTAL(productPrice) FROM task_table WHERE" +
         "(:fromDate IS NULL OR timestamp >= :fromDate) AND" +
-        "(:toDate IS NULL OR timestamp <= :toDate) " +
-        "ORDER BY timestamp DESC"
+        "(:toDate IS NULL OR timestamp <= :toDate) "
     )
     fun getTotalPrice(fromDate: Date?, toDate: Date?): Flow<Long>
 }

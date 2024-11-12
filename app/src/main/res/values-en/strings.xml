@@ -16,4 +16,19 @@
     <string name="fields_cannot_be_empty">Fields cannot be empty</string>
     <string name="login_already_exists">The login already exists</string>
     <string name="username_or_password_was_entered_incorrectly">The username or password was entered incorrectly</string>
+    
+    <string name="FCs">FCs</string>
+    <string name="phone_number">Phone number</string>
+    <string name="email">Email</string>
+    <string name="marking">Marking</string>
+    <string name="description_task">Description task</string>
+    <string name="product_name">Product name</string>
+    <string name="product_price">Product price</string>
+    <string name="delivery_name">Delivery name</string>
+    <string name="delivery_price">Delivery price</string>
+    <string name="create_task">Create task</string>
+    <string name="creating_task">Creating task</string>
+    <string name="client">Client</string>
+    <string name="product">Product</string>
+    <string name="delivery">Delivery</string>
 </resources>

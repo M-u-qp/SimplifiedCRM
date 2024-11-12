@@ -13,6 +13,12 @@ class AppRepository @Inject constructor(
 ) {
     suspend fun insertTask(task: Task) = taskDao.insertTask(task)
     suspend fun deleteTask(task: Task) = taskDao.deleteTask(task)
-    fun getSortedPagedAllTask() = Pager(config = PagingConfig(pageSize = 10)) { taskDao.getAllTasksSortByDate() }
-    fun getTotalPrice(fromDate: Date? = null, toDate: Date? = null): Flow<Long> = taskDao.getTotalPrice(fromDate, toDate)
+    fun getSortedPagedAllTask() =
+        Pager(config = PagingConfig(pageSize = 10)) { taskDao.getAllTasksSortByDate() }
+
+    fun getTotalPrice(fromDate: Date? = null, toDate: Date? = null): Flow<Long> =
+        taskDao.getTotalPrice(fromDate, toDate)
+
+    fun getSortedPagedTaskByStatus(statusTask: String) =
+        Pager(config = PagingConfig(pageSize = 10)) { taskDao.getAllTasksSortByStatus(statusTask) }
 }

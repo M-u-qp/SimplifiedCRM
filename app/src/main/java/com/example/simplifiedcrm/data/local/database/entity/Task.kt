@@ -9,12 +9,13 @@ import java.util.Date
 data class Task(
     @PrimaryKey(autoGenerate = true)
     val id: Int = 0,
-    val client: Client,
-    val timestamp: Date,
-    val description: String,
-    val productName: String,
-    val productPrice: Long,
-    val delivery: Delivery
+    val client: Client = Client("","","",""),
+    val timestamp: Date = Date(),
+    val statusTask: String = "",
+    val description: String = "",
+    val productName: String = "",
+    val productPrice: Long = 0L,
+    val delivery: Delivery = Delivery("",0L)
 )
 
 @Serializable
