@@ -20,7 +20,8 @@
     <string name="FCs">ФИО</string>
     <string name="phone_number">Номер телефона</string>
     <string name="email">Электронная почта</string>
-    <string name="marking">Пометка</string>
+    <string name="client_marking">Пометка о клиенте</string>
+    <string name="task_marking">Пометка о задаче</string>
     <string name="description_task">Описание задачи</string>
     <string name="product_name">Название товара</string>
     <string name="product_price">Цена товара</string>

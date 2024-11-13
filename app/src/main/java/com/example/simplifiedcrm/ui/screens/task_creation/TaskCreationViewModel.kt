@@ -11,9 +11,11 @@ import com.example.simplifiedcrm.data.repository.AppRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import java.util.Date
 import javax.inject.Inject
 
 @HiltViewModel
@@ -23,6 +25,9 @@ class TaskCreationViewModel @Inject constructor(
 ) : ViewModel(), TaskCreationEvent {
     private val _task = MutableStateFlow(Task())
     val task = _task.asStateFlow()
+
+    private val _navigateToHome = MutableStateFlow(false)
+    val navigateToHome: StateFlow<Boolean> = _navigateToHome
 
     private val _error = mutableStateOf("")
     val error: State<String> = _error
@@ -34,6 +39,7 @@ class TaskCreationViewModel @Inject constructor(
                 _error.value = cannotBeEmpty
             } else {
                 appRepository.insertTask(task.value)
+                _navigateToHome.value = true
             }
         }
     }
@@ -82,5 +88,13 @@ class TaskCreationViewModel @Inject constructor(
 
     override fun updateDeliveryPrice(price: Long) {
         _task.update { it.copy(delivery = it.delivery.copy(price = price)) }
+    }
+
+    override fun updateStatusTask(statusTask: String) {
+        _task.update { it.copy(statusTask = statusTask) }
+    }
+
+    override fun updateTimestamp(date: Date) {
+        _task.update { it.copy(timestamp = date) }
     }
 }

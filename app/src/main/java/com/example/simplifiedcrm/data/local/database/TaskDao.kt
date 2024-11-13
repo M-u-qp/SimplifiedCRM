@@ -22,7 +22,7 @@ interface TaskDao {
     @Query("SELECT * FROM task_table ORDER BY timestamp DESC")
     fun getAllTasksSortByDate(): PagingSource<Int, Task>
 
-    @Query("SELECT * FROM task_table ORDER BY :statusTask DESC")
+    @Query("SELECT * FROM task_table WHERE statusTask = :statusTask")
     fun getAllTasksSortByStatus(statusTask: String): PagingSource<Int, Task>
 
     @Query(

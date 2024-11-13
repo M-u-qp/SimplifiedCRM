@@ -1,6 +1,7 @@
 package com.example.simplifiedcrm.ui.screens.task_creation
 
 import com.example.simplifiedcrm.data.local.database.entity.Task
+import java.util.Date
 
 interface TaskCreationEvent {
     fun createTask()
@@ -15,4 +16,6 @@ interface TaskCreationEvent {
     fun updateProductPrice(productPrice: Long)
     fun updateDeliveryName(name: String)
     fun updateDeliveryPrice(price: Long)
+    fun updateStatusTask(statusTask: String)
+    fun updateTimestamp(date: Date)
 }

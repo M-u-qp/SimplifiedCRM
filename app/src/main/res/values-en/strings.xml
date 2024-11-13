@@ -20,7 +20,8 @@
     <string name="FCs">FCs</string>
     <string name="phone_number">Phone number</string>
     <string name="email">Email</string>
-    <string name="marking">Marking</string>
+    <string name="client_marking">Marking about client</string>
+    <string name="task_marking">Marking about task</string>
     <string name="description_task">Description task</string>
     <string name="product_name">Product name</string>
     <string name="product_price">Product price</string>
