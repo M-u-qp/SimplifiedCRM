@@ -10,6 +10,7 @@ import androidx.datastore.preferences.preferencesDataStoreFile
 import androidx.room.Room
 import com.example.simplifiedcrm.data.local.database.TaskDao
 import com.example.simplifiedcrm.data.local.database.TaskDatabase
+import com.example.simplifiedcrm.data.local.database.TaskDatabase.Companion.TASK_DB_NAME
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -57,11 +58,11 @@ import javax.inject.Singleton
     fun provideTaskDatabase(
         @ApplicationContext context: Context
     ): TaskDatabase {
-//        return Room.databaseBuilder(
-        return Room.inMemoryDatabaseBuilder(
+        return Room.databaseBuilder(
+//        return Room.inMemoryDatabaseBuilder(
             context = context,
             klass = TaskDatabase::class.java,
-//            name = TASK_DB_NAME
+            name = TASK_DB_NAME
         )
             .fallbackToDestructiveMigration()
             .build()

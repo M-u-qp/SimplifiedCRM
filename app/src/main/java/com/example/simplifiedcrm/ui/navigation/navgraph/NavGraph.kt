@@ -42,6 +42,7 @@ import com.example.simplifiedcrm.ui.screens.profile.ProfileViewModel
 import com.example.simplifiedcrm.ui.screens.task_creation.TaskCreationScreen
 import com.example.simplifiedcrm.ui.screens.task_creation.TaskCreationViewModel
 import com.example.simplifiedcrm.ui.screens.tasks.TasksScreen
+import com.example.simplifiedcrm.ui.screens.tasks.TasksViewModel
 
 @Composable
 fun NavGraph(navController: NavHostController) {
@@ -149,7 +150,10 @@ fun NavGraph(navController: NavHostController) {
                             HomeScreen()
                         }
                         composable(route = Route.TasksScreen.route) {
-                            TasksScreen()
+                            val viewModel: TasksViewModel = hiltViewModel()
+                            TasksScreen(
+                                viewModel = viewModel
+                            )
                         }
                         composable(route = Route.ProfileScreen.route) {
                             val viewModel: ProfileViewModel = hiltViewModel()

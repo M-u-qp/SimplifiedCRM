@@ -32,4 +32,8 @@
     <string name="client">Клиент</string>
     <string name="product">Товар</string>
     <string name="delivery">Доставка</string>
+
+    <string name="active">Активные</string>
+    <string name="expired">Просроченные</string>
+    <string name="done">Завершенные</string>
 </resources>

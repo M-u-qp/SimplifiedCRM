@@ -32,4 +32,8 @@
     <string name="client">Client</string>
     <string name="product">Product</string>
     <string name="delivery">Delivery</string>
+    
+    <string name="active">Active</string>
+    <string name="expired">Expired</string>
+    <string name="done">Done</string>
 </resources>
