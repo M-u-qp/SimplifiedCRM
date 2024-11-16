@@ -13,12 +13,12 @@ import javax.inject.Inject
 class ProfileViewModel @Inject constructor(
     private val userRepository: UserRepository
 ): ViewModel() {
-    private val _navigateToLogin = MutableStateFlow(true)
+    private val _navigateToLogin = MutableStateFlow(false)
     val navigateToLogin: StateFlow<Boolean> = _navigateToLogin
     fun signOut() {
         viewModelScope.launch {
             userRepository.signOut()
-            _navigateToLogin.value = false
+            _navigateToLogin.value = true
         }
     }
 }

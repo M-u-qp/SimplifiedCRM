@@ -35,10 +35,13 @@ import com.example.simplifiedcrm.R
 import com.example.simplifiedcrm.ui.navigation.BottomNavigation
 import com.example.simplifiedcrm.ui.navigation.BottomNavigationItem
 import com.example.simplifiedcrm.ui.screens.home.HomeScreen
+import com.example.simplifiedcrm.ui.screens.home.HomeViewModel
 import com.example.simplifiedcrm.ui.screens.onboarding.OnboardingScreen
 import com.example.simplifiedcrm.ui.screens.onboarding.OnboardingViewModel
 import com.example.simplifiedcrm.ui.screens.profile.ProfileScreen
 import com.example.simplifiedcrm.ui.screens.profile.ProfileViewModel
+import com.example.simplifiedcrm.ui.screens.settings.SettingsScreen
+import com.example.simplifiedcrm.ui.screens.settings.SettingsViewModel
 import com.example.simplifiedcrm.ui.screens.task_creation.TaskCreationScreen
 import com.example.simplifiedcrm.ui.screens.task_creation.TaskCreationViewModel
 import com.example.simplifiedcrm.ui.screens.tasks.TasksScreen
@@ -147,7 +150,12 @@ fun NavGraph(navController: NavHostController) {
                             )
                         }
                         composable(route = Route.HomeScreen.route) {
-                            HomeScreen()
+                            val viewModel: HomeViewModel = hiltViewModel()
+                            HomeScreen(
+                                viewModel = viewModel,
+                                navigateToLogin = { navController.navigate(Route.AppStartNavigation.route) },
+                                navigateToSettings = { navController.navigate(Route.SettingsScreen.route) }
+                            )
                         }
                         composable(route = Route.TasksScreen.route) {
                             val viewModel: TasksViewModel = hiltViewModel()
@@ -168,6 +176,13 @@ fun NavGraph(navController: NavHostController) {
                                 viewModel = viewModel,
                                 event = viewModel,
                                 navigateToHome = { navController.navigate(Route.HomeScreen.route) },
+                                navigateUp = { navController.navigateUp() }
+                            )
+                        }
+                        composable(route = Route.SettingsScreen.route) {
+                            val viewModel: SettingsViewModel = hiltViewModel()
+                            SettingsScreen(
+                                viewModel = viewModel,
                                 navigateUp = { navController.navigateUp() }
                             )
                         }

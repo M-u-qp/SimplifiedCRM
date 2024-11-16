@@ -84,10 +84,10 @@ fun TaskCreationScreen(
         },
         topBar = {
             TaskTopBar(
-                navigate = navigateUp,
+                clickNavigationIcon = navigateUp,
                 title = stringResource(id = R.string.creating_task),
-                icon = R.drawable.icons8_arrow,
-                iconModifier = Modifier.graphicsLayer(rotationZ = 180f)
+                navigationIcon = R.drawable.icons8_arrow,
+                navigationIconModifier = Modifier.graphicsLayer(rotationZ = 180f)
             )
         }
     ) { innerPadding ->

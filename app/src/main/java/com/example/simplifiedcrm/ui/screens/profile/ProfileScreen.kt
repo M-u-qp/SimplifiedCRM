@@ -27,7 +27,7 @@ fun ProfileScreen(
 ) {
     val isSignIn = viewModel.navigateToLogin.collectAsState().value
     LaunchedEffect(key1 = isSignIn) {
-        if (!isSignIn) {
+        if (isSignIn) {
             navigateToLogin()
         }
     }
@@ -44,7 +44,7 @@ fun ProfileScreen(
             ) {
                 TaskTopBar(
                     title = stringResource(id = R.string.profile),
-                    icon = R.drawable.icons8_edit
+                    actionIcon = R.drawable.icons8_edit
                 )
             }
         }

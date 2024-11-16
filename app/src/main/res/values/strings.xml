@@ -38,4 +38,5 @@
     <string name="done">Завершенные</string>
 
     <string name="current_tasks">Текущие задачи</string>
+    <string name="settings">Настройки</string>
 </resources>
