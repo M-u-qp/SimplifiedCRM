@@ -36,4 +36,6 @@
     <string name="active">Активные</string>
     <string name="expired">Просроченные</string>
     <string name="done">Завершенные</string>
+
+    <string name="current_tasks">Текущие задачи</string>
 </resources>

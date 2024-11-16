@@ -22,6 +22,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
@@ -35,7 +36,6 @@ import com.example.simplifiedcrm.ui.screens.component.TaskTopBar
 import com.example.simplifiedcrm.ui.screens.task_creation.component.TaskButton
 import com.example.simplifiedcrm.ui.screens.task_creation.component.TaskTextField
 import kotlinx.coroutines.launch
-import java.time.LocalDate
 import java.util.Date
 
 @Composable
@@ -84,8 +84,10 @@ fun TaskCreationScreen(
         },
         topBar = {
             TaskTopBar(
-                navigateUp = navigateUp,
-                title = stringResource(id = R.string.creating_task)
+                navigate = navigateUp,
+                title = stringResource(id = R.string.creating_task),
+                icon = R.drawable.icons8_arrow,
+                iconModifier = Modifier.graphicsLayer(rotationZ = 180f)
             )
         }
     ) { innerPadding ->

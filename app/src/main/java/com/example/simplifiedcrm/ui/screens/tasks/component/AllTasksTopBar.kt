@@ -54,7 +54,9 @@ fun AllTasksTopBar(
                     Icon(
                         bitmap = ImageBitmap.imageResource(R.drawable.icons8_list),
                         contentDescription = null,
-                        tint = MaterialTheme.colorScheme.primary
+                        tint =
+                        if (dropDownExpended) MaterialTheme.colorScheme.primary
+                        else MaterialTheme.colorScheme.onSurface
                     )
                 }
                 DropDownList(
@@ -65,7 +67,8 @@ fun AllTasksTopBar(
                     request = { dropDownExpended = it },
                     list = sortOrderList,
                     stringTransform = { sortOrder ->
-                        sortOrderStrings[sortOrder.ordinal] },
+                        sortOrderStrings[sortOrder.ordinal]
+                    },
                     opened = dropDownExpended,
                     modifier = Modifier.padding(end = 8.dp)
                 )

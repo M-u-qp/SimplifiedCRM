@@ -3,17 +3,22 @@ package com.example.simplifiedcrm.ui.screens.profile
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.simplifiedcrm.R
+import com.example.simplifiedcrm.ui.screens.component.TaskTopBar
 
 @Composable
 fun ProfileScreen(
@@ -27,22 +32,42 @@ fun ProfileScreen(
         }
     }
 
-    Box(
-        modifier = Modifier.fillMaxSize(),
-        contentAlignment = Alignment.Center
-    ) {
-        Column {
-            Text(
-                text = stringResource(id = R.string.profile),
-                style = MaterialTheme.typography.titleSmall
-            )
-            Button(onClick = {
-                viewModel.signOut()
-            }) {
+    Scaffold(
+        topBar = {
+            Box(
+                modifier = Modifier
+                    .shadow(
+                        elevation = 8.dp,
+                        ambientColor = MaterialTheme.colorScheme.onSurface,
+                        spotColor = MaterialTheme.colorScheme.onSurface
+                    )
+            ) {
+                TaskTopBar(
+                    title = stringResource(id = R.string.profile),
+                    icon = R.drawable.icons8_edit
+                )
+            }
+        }
+    ) { paddingValues ->
+        Box(
+            modifier = Modifier
+                .padding(paddingValues)
+                .fillMaxSize(),
+            contentAlignment = Alignment.Center
+        ) {
+            Column {
                 Text(
-                    text = stringResource(id = R.string.sign_out),
+                    text = stringResource(id = R.string.profile),
                     style = MaterialTheme.typography.titleSmall
                 )
+                Button(onClick = {
+                    viewModel.signOut()
+                }) {
+                    Text(
+                        text = stringResource(id = R.string.sign_out),
+                        style = MaterialTheme.typography.titleSmall
+                    )
+                }
             }
         }
     }

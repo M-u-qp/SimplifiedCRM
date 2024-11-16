@@ -2,7 +2,7 @@ package com.example.simplifiedcrm.ui.theme
 
 import androidx.compose.ui.graphics.Color
 
-val light_primary = Color(0xFF1976D2)
+val light_primary = Color(0xFF58A2EB)
 val light_onPrimary = Color(0xFFFFFFFF)
 val light_primaryContainer = Color(0xFFAFCAE6)
 val light_onPrimaryContainer = Color(0xFF012B55)
@@ -24,9 +24,9 @@ val light_surface = Color(0xFFF5FAFF)
 val light_onSurface = Color(0xFF1F2022)
 val light_surfaceVariant = Color(0xFFD1D5DA)
 val light_onSurfaceVariant = Color(0xFF4B5157)
-val light_green = Color(0xFF65FA6C)
+val light_green = Color(0xFF6DECA8)
 
-val dark_primary = Color(0xFF56A0E9)
+val dark_primary = Color(0xFF74B9FD)
 val dark_onPrimary = Color(0xFF002242)
 val dark_primaryContainer = Color(0xFF1E4469)
 val dark_onPrimaryContainer = Color(0xFFD6E6F7)
@@ -48,4 +48,4 @@ val dark_surface = Color(0xFF1C1E20)
 val dark_onSurface = Color(0xFFDEE0E2)
 val dark_surfaceVariant = Color(0xFF414549)
 val dark_onSurfaceVariant = Color(0xFFB9BFC5)
-val dark_green = Color(0xFF59B35D)
+val dark_green = Color(0xFF489C79)

@@ -36,4 +36,6 @@
     <string name="active">Active</string>
     <string name="expired">Expired</string>
     <string name="done">Done</string>
+
+    <string name="current_tasks">Current tasks</string>
 </resources>
