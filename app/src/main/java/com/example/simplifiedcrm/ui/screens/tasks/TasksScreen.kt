@@ -1,6 +1,7 @@
 package com.example.simplifiedcrm.ui.screens.tasks
 
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -31,7 +32,8 @@ import com.example.simplifiedcrm.ui.screens.component.TaskTopBar
 
 @Composable
 fun TasksScreen(
-    viewModel: TasksViewModel = hiltViewModel()
+    viewModel: TasksViewModel = hiltViewModel(),
+    paddingValues: PaddingValues
 ) {
 
     val taskList = viewModel.taskList.collectAsLazyPagingItems()
@@ -41,8 +43,6 @@ fun TasksScreen(
     }
     val sortOrderList =
         remember { TaskByStatusSortOrder.entries }
-    val sortOrderStrings =
-        remember { TaskByStatusSortOrder.entries.map { it.getStringResource(context) } }
 
     Scaffold(
         topBar = {
@@ -66,17 +66,18 @@ fun TasksScreen(
                 )
             }
         }
-    ) { paddingValues ->
+    ) { innerValues ->
         Box(
             modifier = Modifier
-                .padding(paddingValues)
+                .padding(innerValues)
                 .fillMaxSize(),
             contentAlignment = Alignment.Center
         ) {
             TasksScreenContent(
                 modifier = Modifier.fillMaxWidth(),
                 tasks = taskList,
-                onClick = viewModel::setDialog
+                onClick = viewModel::setDialog,
+                paddingValues = paddingValues
             )
         }
     }
@@ -95,11 +96,13 @@ fun TasksScreen(
 private fun TasksScreenContent(
     modifier: Modifier = Modifier,
     tasks: LazyPagingItems<Task>,
-    onClick: (Task) -> Unit
+    onClick: (Task) -> Unit,
+    paddingValues: PaddingValues
 ) {
     TaskItemList(
         modifier = modifier,
         tasks = tasks,
-        onClick = onClick
+        onClick = onClick,
+        paddingValues = paddingValues
     )
 }

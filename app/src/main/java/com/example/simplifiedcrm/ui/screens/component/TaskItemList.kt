@@ -10,7 +10,6 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.compositionLocalOf
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
@@ -22,12 +21,13 @@ import com.example.simplifiedcrm.data.local.database.entity.Task
 fun TaskItemList(
     modifier: Modifier = Modifier,
     tasks: LazyPagingItems<Task>,
-    onClick: (Task) -> Unit
+    onClick: (Task) -> Unit,
+    paddingValues: PaddingValues
 ) {
     LazyColumn(
         modifier = modifier,
-        verticalArrangement = Arrangement.spacedBy(16.dp),
-        contentPadding = PaddingValues(bottom = compositionLocalOf { 0.dp }.current + 6.dp)
+        verticalArrangement = Arrangement.spacedBy(0.dp),
+        contentPadding = paddingValues
     ) {
         if (tasks.loadState.refresh == LoadState.Loading) {
             item {
@@ -44,6 +44,7 @@ fun TaskItemList(
                         task = task,
                         modifier = Modifier
                             .padding(end = 16.dp)
+                            .padding(vertical = 6.dp)
                             .fillMaxWidth()
                             .clickable { onClick(task) },
                         shape = RoundedCornerShape(

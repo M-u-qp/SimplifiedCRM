@@ -1,7 +1,9 @@
 package com.example.simplifiedcrm.ui.navigation.navgraph
 
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.FabPosition
@@ -112,6 +114,14 @@ fun NavGraph(navController: NavHostController) {
         floatingActionButton = {
             if (isBottomBarVisible) {
                 FloatingActionButton(
+                    modifier = Modifier
+                        .offset(y = (25).dp)
+                        .border(
+                        width = 2.dp,
+                        color = MaterialTheme.colorScheme.scrim,
+                        shape = MaterialTheme.shapes.medium
+                    ),
+                    shape = MaterialTheme.shapes.medium,
                     onClick = { navController.navigate(Route.TaskCreationScreen.route) },
                     contentColor = MaterialTheme.colorScheme.onPrimary,
                     containerColor = MaterialTheme.colorScheme.primary
@@ -154,13 +164,15 @@ fun NavGraph(navController: NavHostController) {
                             HomeScreen(
                                 viewModel = viewModel,
                                 navigateToLogin = { navController.navigate(Route.AppStartNavigation.route) },
-                                navigateToSettings = { navController.navigate(Route.SettingsScreen.route) }
+                                navigateToSettings = { navController.navigate(Route.SettingsScreen.route) },
+                                paddingValues = paddingValues
                             )
                         }
                         composable(route = Route.TasksScreen.route) {
                             val viewModel: TasksViewModel = hiltViewModel()
                             TasksScreen(
-                                viewModel = viewModel
+                                viewModel = viewModel,
+                                paddingValues = paddingValues
                             )
                         }
                         composable(route = Route.ProfileScreen.route) {

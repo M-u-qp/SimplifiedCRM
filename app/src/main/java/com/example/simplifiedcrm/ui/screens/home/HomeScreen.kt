@@ -1,6 +1,7 @@
 package com.example.simplifiedcrm.ui.screens.home
 
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -33,7 +34,8 @@ import com.example.simplifiedcrm.ui.screens.component.TaskTopBar
 fun HomeScreen(
     viewModel: HomeViewModel = hiltViewModel(),
     navigateToLogin: () -> Unit,
-    navigateToSettings: () -> Unit
+    navigateToSettings: () -> Unit,
+    paddingValues: PaddingValues
 ) {
     val context = LocalContext.current
     val taskList = viewModel.taskList.collectAsLazyPagingItems()
@@ -80,17 +82,18 @@ fun HomeScreen(
                 )
             }
         }
-    ) { paddingValues ->
+    ) { innerValues ->
         Box(
             modifier = Modifier
-                .padding(paddingValues)
+                .padding(innerValues)
                 .fillMaxSize(),
             contentAlignment = Alignment.Center
         ) {
             HomeScreenContent(
                 modifier = Modifier.fillMaxWidth(),
                 tasks = taskList,
-                onClick = viewModel::setDialog
+                onClick = viewModel::setDialog,
+                paddingValues = paddingValues
             )
         }
 
@@ -109,10 +112,12 @@ fun HomeScreen(
 private fun HomeScreenContent(
     modifier: Modifier = Modifier,
     tasks: LazyPagingItems<Task>,
-    onClick: (Task) -> Unit
+    onClick: (Task) -> Unit,
+    paddingValues: PaddingValues
 ) {
     TaskItemList(
         modifier = modifier,
+        paddingValues = paddingValues,
         tasks = tasks,
         onClick = onClick
     )
