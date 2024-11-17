@@ -1,6 +1,7 @@
 package com.example.simplifiedcrm.ui.screens.component
 
 import androidx.annotation.StringRes
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -22,9 +23,12 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.example.simplifiedcrm.R
+import com.example.simplifiedcrm.common.extension.dialPhoneNumber
+import com.example.simplifiedcrm.common.extension.sendToEmail
 import com.example.simplifiedcrm.data.local.database.entity.Task
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -33,6 +37,8 @@ fun TaskInfoDialog(
     isVisibleDialog: (Boolean) -> Unit,
     task: Task
 ) {
+    val context = LocalContext.current
+
     BasicAlertDialog(
         onDismissRequest = { isVisibleDialog(false) }
     ) {
@@ -53,11 +59,13 @@ fun TaskInfoDialog(
             ) {
                 PairItemsInRow(category = R.string.FCs, item = task.client.name)
                 PairItemsInRow(
+                    modifier = Modifier.clickable { context.dialPhoneNumber(task.client.phone) },
                     category = R.string.phone_number,
                     item = task.client.phone,
                     colorItem = MaterialTheme.colorScheme.primary
                 )
                 PairItemsInRow(
+                    modifier = Modifier.clickable { context.sendToEmail(task.client.email) },
                     category = R.string.email,
                     item = task.client.email,
                     colorItem = MaterialTheme.colorScheme.primary
