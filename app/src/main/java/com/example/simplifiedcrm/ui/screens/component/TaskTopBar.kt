@@ -19,7 +19,7 @@ import androidx.compose.ui.unit.dp
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun TaskTopBar(
+fun <T : Any> TaskTopBar(
     modifier: Modifier = Modifier,
     clickNavigationIcon: () -> Unit = {},
     clickActionIcon: () -> Unit = {},
@@ -30,8 +30,9 @@ fun TaskTopBar(
     actionIconModifier: Modifier = Modifier,
     externalDropDownExpended: Boolean = false,
     innerDropDownExpended: (Boolean) -> Unit = {},
-    sortOrderList: List<String> = emptyList(),
-    sortOrderSelected: (String) -> Unit = {},
+    sortOrderList: List<T> = emptyList(),
+    stringTransform: ((T) -> String)? = null,
+    sortOrderSelected: (T) -> Unit = {},
     onClickSelectedItemDropDownList: () -> Unit = {}
 ) {
     TopAppBar(
@@ -79,6 +80,9 @@ fun TaskTopBar(
                         innerDropDownExpended(it)
                     },
                     list = sortOrderList,
+                    stringTransform = { item ->
+                            stringTransform?.invoke(item) ?: item.toString()
+                    },
                     opened = externalDropDownExpended,
                     modifier = Modifier.padding(end = 8.dp)
                 )

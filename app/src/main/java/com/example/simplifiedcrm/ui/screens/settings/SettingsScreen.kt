@@ -35,7 +35,8 @@ fun SettingsScreen(
                     title = stringResource(id = R.string.settings),
                     navigationIcon = R.drawable.icons8_arrow,
                     clickNavigationIcon = navigateUp,
-                    navigationIconModifier = Modifier.graphicsLayer(rotationZ = 180f)
+                    navigationIconModifier = Modifier.graphicsLayer(rotationZ = 180f),
+                    sortOrderList = listOf()
                 )
             }
         }

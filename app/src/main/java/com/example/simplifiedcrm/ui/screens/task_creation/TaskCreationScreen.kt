@@ -87,7 +87,8 @@ fun TaskCreationScreen(
                 clickNavigationIcon = navigateUp,
                 title = stringResource(id = R.string.creating_task),
                 navigationIcon = R.drawable.icons8_arrow,
-                navigationIconModifier = Modifier.graphicsLayer(rotationZ = 180f)
+                navigationIconModifier = Modifier.graphicsLayer(rotationZ = 180f),
+                sortOrderList = listOf()
             )
         }
     ) { innerPadding ->

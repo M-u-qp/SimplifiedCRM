@@ -44,7 +44,8 @@ fun ProfileScreen(
             ) {
                 TaskTopBar(
                     title = stringResource(id = R.string.profile),
-                    actionIcon = R.drawable.icons8_edit
+                    actionIcon = R.drawable.icons8_edit,
+                    sortOrderList = listOf()
                 )
             }
         }

@@ -29,9 +29,9 @@ fun TaskCard(
     task: Task
 ) {
     val activeColors = Triple(
-        MaterialTheme.colorScheme.scrim,
         MaterialTheme.colorScheme.primary,
-        MaterialTheme.colorScheme.primary
+        MaterialTheme.colorScheme.scrim,
+        MaterialTheme.colorScheme.scrim
     )
     val expiredColors = Triple(
         MaterialTheme.colorScheme.error,
@@ -39,7 +39,7 @@ fun TaskCard(
         MaterialTheme.colorScheme.onSurface
     )
     val doneColors = Triple(
-        MaterialTheme.colorScheme.primary,
+        MaterialTheme.colorScheme.primaryContainer,
         MaterialTheme.colorScheme.scrim,
         MaterialTheme.colorScheme.scrim
     )

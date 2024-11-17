@@ -8,17 +8,26 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.collectAsLazyPagingItems
+import com.example.simplifiedcrm.R
 import com.example.simplifiedcrm.data.local.database.entity.Task
+import com.example.simplifiedcrm.ui.screens.component.TaskByStatusSortOrder
 import com.example.simplifiedcrm.ui.screens.component.TaskInfoDialog
 import com.example.simplifiedcrm.ui.screens.component.TaskItemList
-import com.example.simplifiedcrm.ui.screens.tasks.component.AllTasksTopBar
+import com.example.simplifiedcrm.ui.screens.component.TaskTopBar
 
 @Composable
 fun TasksScreen(
@@ -26,6 +35,14 @@ fun TasksScreen(
 ) {
 
     val taskList = viewModel.taskList.collectAsLazyPagingItems()
+    val context = LocalContext.current
+    var dropDownExpended by rememberSaveable {
+        mutableStateOf(false)
+    }
+    val sortOrderList =
+        remember { TaskByStatusSortOrder.entries }
+    val sortOrderStrings =
+        remember { TaskByStatusSortOrder.entries.map { it.getStringResource(context) } }
 
     Scaffold(
         topBar = {
@@ -37,8 +54,15 @@ fun TasksScreen(
                         spotColor = MaterialTheme.colorScheme.onSurface
                     )
             ) {
-                AllTasksTopBar(
-                    sortOrderSelected = viewModel::setSortOrder
+                TaskTopBar(
+                    title = stringResource(id = R.string.tasks),
+                    actionIcon = R.drawable.icons8_list,
+                    clickActionIcon = { dropDownExpended = !dropDownExpended },
+                    externalDropDownExpended = dropDownExpended,
+                    innerDropDownExpended = { dropDownExpended = it },
+                    sortOrderList = sortOrderList,
+                    sortOrderSelected = viewModel::setSortOrder,
+                    stringTransform = { item -> item.getStringResource(context) }
                 )
             }
         }
