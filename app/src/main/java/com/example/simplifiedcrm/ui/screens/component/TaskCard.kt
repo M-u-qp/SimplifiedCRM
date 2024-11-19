@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ElevatedCard
@@ -19,7 +20,8 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import com.example.simplifiedcrm.common.extension.getColors
-import com.example.simplifiedcrm.common.extension.getFormattedDate
+import com.example.simplifiedcrm.common.extension.getFormattedDay
+import com.example.simplifiedcrm.common.extension.getFormattedMonth
 import com.example.simplifiedcrm.data.local.database.entity.Task
 
 @Composable
@@ -30,8 +32,8 @@ fun TaskCard(
 ) {
     val activeColors = Triple(
         MaterialTheme.colorScheme.primary,
-        MaterialTheme.colorScheme.scrim,
-        MaterialTheme.colorScheme.scrim
+        MaterialTheme.colorScheme.tertiary,
+        MaterialTheme.colorScheme.tertiary
     )
     val expiredColors = Triple(
         MaterialTheme.colorScheme.error,
@@ -40,8 +42,8 @@ fun TaskCard(
     )
     val doneColors = Triple(
         MaterialTheme.colorScheme.primaryContainer,
-        MaterialTheme.colorScheme.scrim,
-        MaterialTheme.colorScheme.scrim
+        MaterialTheme.colorScheme.onTertiary,
+        MaterialTheme.colorScheme.onTertiary
     )
     val (backgroundColor, textColor, borderColor) = task.statusTask.getColors(
         activeColors,
@@ -62,17 +64,31 @@ fun TaskCard(
     ) {
         Column(
             modifier = Modifier
-                .padding(10.dp)
+                .padding(horizontal = 16.dp, vertical = 10.dp)
                 .fillMaxWidth(),
-            horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.spacedBy(8.dp)
         ) {
-            Text(
-                text = task.timestamp.getFormattedDate(),
-                style = MaterialTheme.typography.bodyMedium.copy(
-                    fontWeight = FontWeight.SemiBold
+            Row(
+                horizontalArrangement = Arrangement.spacedBy(8.dp),
+                verticalAlignment = Alignment.Bottom
+            ) {
+                Text(
+                    text = task.timestamp.getFormattedDay(),
+                    style = MaterialTheme.typography.headlineSmall.copy(
+                        fontWeight = FontWeight.Bold
+                    ),
+                    color = MaterialTheme.colorScheme.secondary
                 )
-            )
+                Text(
+                    modifier = Modifier.offset(y = (-2).dp),
+                    text = task.timestamp.getFormattedMonth(),
+                    style = MaterialTheme.typography.bodyMedium.copy(
+                        fontWeight = FontWeight.Normal
+                    ),
+                    color = MaterialTheme.colorScheme.secondary
+                )
+            }
+
             HorizontalDivider(
                 modifier = Modifier.padding(horizontal = 20.dp),
                 color = borderColor
@@ -87,11 +103,12 @@ fun TaskCard(
                     text = task.productName,
                     style = MaterialTheme.typography.bodyMedium,
                     maxLines = 1,
-                    overflow = TextOverflow.Ellipsis
+                    overflow = TextOverflow.Ellipsis,
+                    color = MaterialTheme.colorScheme.secondary
                 )
                 Text(
                     text = task.productPrice.toString(),
-                    style = MaterialTheme.typography.bodyMedium.copy(
+                    style = MaterialTheme.typography.titleMedium.copy(
                         fontWeight = FontWeight.Bold
                     ),
                     color = textColor
@@ -111,11 +128,12 @@ fun TaskCard(
                     text = task.client.name,
                     style = MaterialTheme.typography.bodyMedium,
                     maxLines = 1,
-                    overflow = TextOverflow.Ellipsis
+                    overflow = TextOverflow.Ellipsis,
+                    color = MaterialTheme.colorScheme.secondary
                 )
                 Text(
                     text = task.client.phone,
-                    style = MaterialTheme.typography.bodyMedium.copy(
+                    style = MaterialTheme.typography.titleMedium.copy(
                         fontWeight = FontWeight.Bold
                     ),
                     color = textColor

@@ -15,7 +15,8 @@ data class Task(
     val description: String = "",
     val productName: String = "",
     val productPrice: Long = 0L,
-    val delivery: Delivery = Delivery("",0L)
+    val delivery: Delivery = Delivery("",0L),
+    val endTime: Date = Date()
 )
 
 @Serializable

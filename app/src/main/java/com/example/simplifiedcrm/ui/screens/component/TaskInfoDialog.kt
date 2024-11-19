@@ -28,6 +28,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.example.simplifiedcrm.R
 import com.example.simplifiedcrm.common.extension.dialPhoneNumber
+import com.example.simplifiedcrm.common.extension.getFormattedDate
 import com.example.simplifiedcrm.common.extension.sendToEmail
 import com.example.simplifiedcrm.data.local.database.entity.Task
 
@@ -90,6 +91,9 @@ fun TaskInfoDialog(
                 HorizontalDivider()
 
                 PairItemsInRow(category = R.string.description_task, item = task.description)
+
+                HorizontalDivider()
+                PairItemsInRow(category = R.string.date_creation, item = task.timestamp.getFormattedDate())
             }
         }
     }

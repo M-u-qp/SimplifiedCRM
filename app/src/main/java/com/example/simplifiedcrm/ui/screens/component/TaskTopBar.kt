@@ -51,7 +51,8 @@ fun <T : Any> TaskTopBar(
                     Icon(
                         bitmap = ImageBitmap.imageResource(id = navigationIcon),
                         contentDescription = null,
-                        modifier = navigationIconModifier
+                        modifier = navigationIconModifier,
+                        tint = MaterialTheme.colorScheme.secondary
                     )
                 }
             }
@@ -66,7 +67,7 @@ fun <T : Any> TaskTopBar(
                             modifier = actionIconModifier,
                             tint =
                             if (externalDropDownExpended) MaterialTheme.colorScheme.primary
-                            else MaterialTheme.colorScheme.onSurface
+                            else MaterialTheme.colorScheme.secondary
                         )
                     }
                 }

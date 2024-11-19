@@ -59,7 +59,6 @@ import javax.inject.Singleton
         @ApplicationContext context: Context
     ): TaskDatabase {
         return Room.databaseBuilder(
-//        return Room.inMemoryDatabaseBuilder(
             context = context,
             klass = TaskDatabase::class.java,
             name = TASK_DB_NAME

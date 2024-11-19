@@ -65,7 +65,7 @@ fun HomeScreen(
             Box(
                 modifier = Modifier
                     .shadow(
-                        elevation = 8.dp,
+                        elevation = 16.dp,
                         ambientColor = MaterialTheme.colorScheme.onSurface,
                         spotColor = MaterialTheme.colorScheme.onSurface
                     )

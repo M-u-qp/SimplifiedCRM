@@ -118,7 +118,7 @@ fun NavGraph(navController: NavHostController) {
                         .offset(y = (25).dp)
                         .border(
                         width = 2.dp,
-                        color = MaterialTheme.colorScheme.scrim,
+                        color = MaterialTheme.colorScheme.tertiary,
                         shape = MaterialTheme.shapes.medium
                     ),
                     shape = MaterialTheme.shapes.medium,
