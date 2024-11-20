@@ -81,7 +81,8 @@ fun TaskCreationScreen(
             ) {
                 Text(
                     text = stringResource(id = R.string.create_task),
-                    style = MaterialTheme.typography.bodyMedium
+                    style = MaterialTheme.typography.titleSmall,
+                    color = MaterialTheme.colorScheme.onSurface
                 )
             }
         },

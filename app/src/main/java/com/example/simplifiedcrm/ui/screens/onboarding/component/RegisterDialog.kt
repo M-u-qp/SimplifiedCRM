@@ -6,6 +6,8 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.layout.wrapContentWidth
+import androidx.compose.foundation.text.KeyboardActions
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.AlertDialogDefaults
 import androidx.compose.material3.BasicAlertDialog
 import androidx.compose.material3.Button
@@ -19,7 +21,10 @@ import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.SoftwareKeyboardController
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.input.ImeAction
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import com.example.simplifiedcrm.R
 import com.example.simplifiedcrm.data.model.User
@@ -29,10 +34,11 @@ import kotlinx.coroutines.launch
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun RegisterDialog(
-    isRegisterDialog:(Boolean) -> Unit,
+    isRegisterDialog: (Boolean) -> Unit,
     user: User,
     event: OnboardingEvent,
-    error: MutableState<Boolean>
+    error: MutableState<Boolean>,
+    keyboardController: SoftwareKeyboardController?
 ) {
     val scope = rememberCoroutineScope()
 
@@ -67,7 +73,16 @@ fun RegisterDialog(
                             style = MaterialTheme.typography.bodyMedium
                         )
                     },
-                    isError = error.value
+                    isError = error.value,
+                    keyboardOptions = KeyboardOptions.Default.copy(
+                        keyboardType = KeyboardType.Text,
+                        imeAction = ImeAction.Done
+                    ),
+                    keyboardActions = KeyboardActions(
+                        onDone = {
+                            keyboardController?.hide()
+                        }
+                    )
                 )
                 Spacer(modifier = Modifier.size(5.dp))
                 OutlinedTextField(
@@ -84,7 +99,16 @@ fun RegisterDialog(
                             style = MaterialTheme.typography.bodyMedium
                         )
                     },
-                    isError = error.value
+                    isError = error.value,
+                    keyboardOptions = KeyboardOptions.Default.copy(
+                        keyboardType = KeyboardType.Text,
+                        imeAction = ImeAction.Done
+                    ),
+                    keyboardActions = KeyboardActions(
+                        onDone = {
+                            keyboardController?.hide()
+                        }
+                    )
                 )
                 Spacer(modifier = Modifier.size(5.dp))
                 OutlinedTextField(
@@ -101,7 +125,16 @@ fun RegisterDialog(
                             style = MaterialTheme.typography.bodyMedium
                         )
                     },
-                    isError = error.value
+                    isError = error.value,
+                    keyboardOptions = KeyboardOptions.Default.copy(
+                        keyboardType = KeyboardType.Text,
+                        imeAction = ImeAction.Done
+                    ),
+                    keyboardActions = KeyboardActions(
+                        onDone = {
+                            keyboardController?.hide()
+                        }
+                    )
                 )
                 Spacer(modifier = Modifier.size(10.dp))
                 Button(
@@ -110,7 +143,8 @@ fun RegisterDialog(
                 ) {
                     Text(
                         text = stringResource(id = R.string.register),
-                        style = MaterialTheme.typography.bodyMedium
+                        style = MaterialTheme.typography.titleSmall,
+                        color = MaterialTheme.colorScheme.onSurface
                     )
                 }
             }

@@ -7,6 +7,8 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.text.KeyboardActions
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
@@ -24,7 +26,11 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalSoftwareKeyboardController
+import androidx.compose.ui.platform.SoftwareKeyboardController
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.input.ImeAction
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.simplifiedcrm.R
@@ -43,6 +49,7 @@ fun OnboardingScreen(
     var isRegisterDialog by remember { mutableStateOf(false) }
     val user = viewModel.user.collectAsState().value
     val context = LocalContext.current
+    val keyboardController = LocalSoftwareKeyboardController.current
 
     val error = remember { mutableStateOf(false) }
 
@@ -70,7 +77,8 @@ fun OnboardingScreen(
             user = user,
             event = event,
             error = error,
-            isRegisterDialog = { isRegisterDialog = it }
+            isRegisterDialog = { isRegisterDialog = it },
+            keyboardController = keyboardController
         )
     }
 
@@ -79,7 +87,8 @@ fun OnboardingScreen(
             isRegisterDialog = { isRegisterDialog = it },
             error = error,
             event = event,
-            user = user
+            user = user,
+            keyboardController = keyboardController
         )
     }
 }
@@ -90,7 +99,8 @@ private fun OnboardingContent(
     user: User,
     event: OnboardingEvent,
     error: MutableState<Boolean>,
-    isRegisterDialog: (Boolean) -> Unit
+    isRegisterDialog: (Boolean) -> Unit,
+    keyboardController: SoftwareKeyboardController?
 ) {
     val scope = rememberCoroutineScope()
 
@@ -113,7 +123,16 @@ private fun OnboardingContent(
                     style = MaterialTheme.typography.bodyMedium
                 )
             },
-            isError = error.value
+            isError = error.value,
+            keyboardOptions = KeyboardOptions.Default.copy(
+                keyboardType = KeyboardType.Text,
+                imeAction = ImeAction.Done
+            ),
+            keyboardActions = KeyboardActions(
+                onDone = {
+                    keyboardController?.hide()
+                }
+            )
         )
         Spacer(modifier = Modifier.size(5.dp))
         OutlinedTextField(
@@ -130,7 +149,16 @@ private fun OnboardingContent(
                     style = MaterialTheme.typography.bodyMedium
                 )
             },
-            isError = error.value
+            isError = error.value,
+            keyboardOptions = KeyboardOptions.Default.copy(
+                keyboardType = KeyboardType.Text,
+                imeAction = ImeAction.Done
+            ),
+            keyboardActions = KeyboardActions(
+                onDone = {
+                    keyboardController?.hide()
+                }
+            )
         )
         Spacer(modifier = Modifier.size(10.dp))
         Button(
@@ -139,7 +167,8 @@ private fun OnboardingContent(
         ) {
             Text(
                 text = stringResource(id = R.string.sign_in),
-                style = MaterialTheme.typography.bodyMedium
+                style = MaterialTheme.typography.titleSmall,
+                color = MaterialTheme.colorScheme.onSurface
             )
         }
         TextButton(onClick = {
@@ -149,7 +178,7 @@ private fun OnboardingContent(
         }) {
             Text(
                 text = stringResource(id = R.string.register) + "?",
-                style = MaterialTheme.typography.bodySmall
+                style = MaterialTheme.typography.titleSmall
             )
         }
     }
