@@ -34,6 +34,10 @@
     <string name="delivery">Доставка</string>
     <string name="date_creation">Дата создания</string>
     <string name="expiration_date">Дата окончания</string>
+    <string name="minimum_time_active_task_24_hours">Если не выбрать дату активности задачи, то будет установлена минимальная в 24 часа</string>
+    <string name="select_date">Выбрать дату</string>
+    <string name="required_fields">Поля, обязательные для заполнения</string>
+    <string name="cannot_be_less_current_date">Дата окончания задачи не может быть ниже текущей даты</string>
 
     <string name="active">Активные</string>
     <string name="expired">Просроченные</string>

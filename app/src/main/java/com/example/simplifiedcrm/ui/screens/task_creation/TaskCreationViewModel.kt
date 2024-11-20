@@ -33,13 +33,15 @@ class TaskCreationViewModel @Inject constructor(
     val error: State<String> = _error
 
     private val cannotBeEmpty = context.getString(R.string.fields_cannot_be_empty)
+    private val cannotBeLessCurrent = context.getString(R.string.cannot_be_less_current_date)
     override fun createTask() {
         viewModelScope.launch {
             if (task.value.productName.isBlank() || task.value.productPrice == 0L) {
                 _error.value = cannotBeEmpty
+            } else if (task.value.endTime < task.value.timestamp) {
+                _error.value = cannotBeLessCurrent
             } else {
-                val minEndTime = Date(Date().time + 24 * 60 * 60 * 1000)
-                updateEndTime(minEndTime)
+                updateEndTime(task.value.endTime)
                 appRepository.insertTask(task.value)
                 _navigateToHome.value = true
             }

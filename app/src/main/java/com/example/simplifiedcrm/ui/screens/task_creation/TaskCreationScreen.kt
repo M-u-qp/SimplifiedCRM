@@ -17,9 +17,11 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.graphicsLayer
@@ -34,6 +36,7 @@ import com.example.simplifiedcrm.data.local.database.entity.Task
 import com.example.simplifiedcrm.ui.screens.component.TaskByStatusSortOrder
 import com.example.simplifiedcrm.ui.screens.component.TaskTopBar
 import com.example.simplifiedcrm.ui.screens.task_creation.component.TaskButton
+import com.example.simplifiedcrm.ui.screens.task_creation.component.TaskCalendar
 import com.example.simplifiedcrm.ui.screens.task_creation.component.TaskTextField
 import kotlinx.coroutines.launch
 import java.util.Date
@@ -103,7 +106,8 @@ fun TaskCreationScreen(
                 task = task,
                 event = event,
                 innerError = { error.value = it },
-                externalError = error.value
+                externalError = error.value,
+                onSelectedDate = { event.updateEndTime(it) }
             )
         }
     }
@@ -115,13 +119,16 @@ private fun TaskCreationContent(
     task: Task,
     event: TaskCreationEvent,
     innerError: (Boolean) -> Unit = {},
-    externalError: Boolean = false
+    externalError: Boolean = false,
+    onSelectedDate: (Date) -> Unit
 ) {
     val scope = rememberCoroutineScope()
-    val isExpandedClient = remember { mutableStateOf(false) }
-    val isExpandedProduct = remember { mutableStateOf(false) }
-    val isExpandedDelivery = remember { mutableStateOf(false) }
-    val isExpandedDescription = remember { mutableStateOf(false) }
+    var isExpandedClient by remember { mutableStateOf(false) }
+    var isExpandedProduct by remember { mutableStateOf(false) }
+    var isExpandedDelivery by remember { mutableStateOf(false) }
+    var isExpandedDescription by remember { mutableStateOf(false) }
+    var isExpandedDate by remember { mutableStateOf(false) }
+    val selectedDate = remember { mutableStateOf<Date?>(null) }
 
     Column(
         modifier = modifier
@@ -130,16 +137,38 @@ private fun TaskCreationContent(
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.spacedBy(5.dp)
     ) {
-        TaskButton(
-            text = R.string.client,
-            icon = if (!isExpandedClient.value) {
+        Text(
+            text = "* - " + stringResource(id = R.string.required_fields),
+            style = MaterialTheme.typography.bodyMedium
+        )
+
+        TaskButton(text = R.string.expiration_date,
+            icon = if (!isExpandedClient) {
                 R.drawable.icons8_switch_off
             } else {
                 R.drawable.icons8_switch_on
             },
-            isExpanded = { isExpandedClient.value = it }
+            isExpanded = { isExpandedDate = it }
         )
-        if (isExpandedClient.value) {
+        if (isExpandedDate) {
+            TaskCalendar(
+                onSelectedDate = {
+                    selectedDate.value = it
+                    onSelectedDate(it)
+                },
+                externalDate = selectedDate.value
+            )
+        }
+        TaskButton(
+            text = R.string.client,
+            icon = if (!isExpandedClient) {
+                R.drawable.icons8_switch_off
+            } else {
+                R.drawable.icons8_switch_on
+            },
+            isExpanded = { isExpandedClient = it }
+        )
+        if (isExpandedClient) {
             TaskTextField(
                 event1 = { scope.launch { event.updateClientName(it) } },
                 task1 = task.client.name,
@@ -162,23 +191,23 @@ private fun TaskCreationContent(
 
         TaskButton(
             text = R.string.product,
-            icon = if (!isExpandedProduct.value) {
+            icon = if (!isExpandedProduct) {
                 R.drawable.icons8_switch_off
             } else {
                 R.drawable.icons8_switch_on
             },
-            isExpanded = { isExpandedProduct.value = it }
+            isExpanded = { isExpandedProduct = it }
         )
-        if (isExpandedProduct.value) {
+        if (isExpandedProduct) {
             TaskTextField(
                 event1 = { scope.launch { event.updateProductName(it) } },
                 task1 = task.productName,
-                text1 = stringResource(id = R.string.product_name),
+                text1 = "*" + stringResource(id = R.string.product_name),
                 event2 = {
                     scope.launch { event.updateProductPrice(it.toLong()) }
                 },
                 task2 = if (task.productPrice == 0L) "" else task.productPrice.toString(),
-                text2 = stringResource(id = R.string.product_price),
+                text2 = "*" + stringResource(id = R.string.product_price),
                 keyboardOptions2 = KeyboardOptions.Default.copy(
                     keyboardType = KeyboardType.Number,
                     imeAction = ImeAction.Done
@@ -190,14 +219,14 @@ private fun TaskCreationContent(
 
         TaskButton(
             text = R.string.delivery,
-            icon = if (!isExpandedDelivery.value) {
+            icon = if (!isExpandedDelivery) {
                 R.drawable.icons8_switch_off
             } else {
                 R.drawable.icons8_switch_on
             },
-            isExpanded = { isExpandedDelivery.value = it }
+            isExpanded = { isExpandedDelivery = it }
         )
-        if (isExpandedDelivery.value) {
+        if (isExpandedDelivery) {
             TaskTextField(
                 event1 = { scope.launch { event.updateDeliveryName(it) } },
                 task1 = task.delivery.name,
@@ -216,14 +245,14 @@ private fun TaskCreationContent(
 
         TaskButton(
             text = R.string.description_task,
-            icon = if (!isExpandedDescription.value) {
+            icon = if (!isExpandedDescription) {
                 R.drawable.icons8_switch_off
             } else {
                 R.drawable.icons8_switch_on
             },
-            isExpanded = { isExpandedDescription.value = it }
+            isExpanded = { isExpandedDescription = it }
         )
-        if (isExpandedDescription.value) {
+        if (isExpandedDescription) {
             TaskTextField(
                 event1 = { scope.launch { event.updateDescription(it) } },
                 task1 = task.description,

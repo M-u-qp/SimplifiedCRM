@@ -36,7 +36,7 @@ class NotificationsImpl : Notifications {
         val notificationBuilder = NotificationCompat.Builder(context, CHANNEL_ID)
             .setSmallIcon(R.drawable.icons8_tasks)
             .setContentTitle(if (isExpired) taskExpiredText else taskWillExpireSoonText)
-            .setContentText("$taskText $taskName ${if (isExpired) taskExpiredText else taskWillExpireSoon24hoursText}")
+            .setContentText("$taskText [$taskName]. ${if (isExpired) taskExpiredText else taskWillExpireSoon24hoursText}")
             .setPriority(NotificationCompat.PRIORITY_HIGH)
             .setAutoCancel(true)
 

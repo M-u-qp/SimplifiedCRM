@@ -34,7 +34,11 @@
     <string name="delivery">Delivery</string>
     <string name="date_creation">Date of creation</string>
     <string name="expiration_date">Expiration date</string>
-    
+    <string name="minimum_time_active_task_24_hours">If you do not select a date for completing the task, the minimum time will be set to 24 hours</string>
+    <string name="select_date">Select a date</string>
+    <string name="required_fields">Required fields</string>
+    <string name="cannot_be_less_current_date">The end date cannot be less than the current one</string>
+
     <string name="active">Active</string>
     <string name="expired">Expired</string>
     <string name="done">Done</string>
