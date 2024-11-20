@@ -37,7 +37,8 @@ fun HomeScreen(
     viewModel: HomeViewModel = hiltViewModel(),
     navigateToLogin: () -> Unit,
     navigateToSettings: () -> Unit,
-    paddingValues: PaddingValues
+    paddingValues: PaddingValues,
+    event: HomeEvent
 ) {
     val context = LocalContext.current
     val scope = rememberCoroutineScope()
@@ -104,7 +105,8 @@ fun HomeScreen(
                             task = it
                         )
                     }
-                }
+                },
+                event = event
             )
         }
 
@@ -125,13 +127,15 @@ private fun HomeScreenContent(
     tasks: LazyPagingItems<Task>,
     onClick: (Task) -> Unit,
     paddingValues: PaddingValues,
-    onTaskChecked: (Task) -> Unit
+    onTaskChecked: (Task) -> Unit,
+    event: HomeEvent
 ) {
     TaskItemList(
         modifier = modifier,
         paddingValues = paddingValues,
         tasks = tasks,
         onClick = onClick,
-        onTaskChecked = onTaskChecked
+        onTaskChecked = onTaskChecked,
+        event = event
     )
 }

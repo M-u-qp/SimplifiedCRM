@@ -7,28 +7,37 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ElevatedCard
 import androidx.compose.material3.HorizontalDivider
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.graphics.Shape
+import androidx.compose.ui.res.imageResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
+import com.example.simplifiedcrm.R
 import com.example.simplifiedcrm.common.extension.getColors
 import com.example.simplifiedcrm.common.extension.getFormattedDay
 import com.example.simplifiedcrm.common.extension.getFormattedMonth
 import com.example.simplifiedcrm.data.local.database.entity.Task
+import com.example.simplifiedcrm.ui.screens.home.HomeEvent
+import com.example.simplifiedcrm.ui.screens.tasks.TasksEvent
 
 @Composable
 fun TaskCard(
     modifier: Modifier = Modifier,
     shape: Shape,
-    task: Task
+    task: Task,
+    event: Any
 ) {
     val activeColors = Triple(
         MaterialTheme.colorScheme.primary,
@@ -69,24 +78,73 @@ fun TaskCard(
             verticalArrangement = Arrangement.spacedBy(8.dp)
         ) {
             Row(
-                horizontalArrangement = Arrangement.spacedBy(8.dp),
-                verticalAlignment = Alignment.Bottom
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceBetween,
+                verticalAlignment = Alignment.CenterVertically
             ) {
-                Text(
-                    text = task.timestamp.getFormattedDay(),
-                    style = MaterialTheme.typography.headlineSmall.copy(
-                        fontWeight = FontWeight.Bold
-                    ),
-                    color = textColor
-                )
-                Text(
-                    modifier = Modifier.offset(y = (-2).dp),
-                    text = task.timestamp.getFormattedMonth(),
-                    style = MaterialTheme.typography.bodyMedium.copy(
-                        fontWeight = FontWeight.Normal
-                    ),
-                    color = textColor
-                )
+                Row(
+                    verticalAlignment = Alignment.Bottom
+                ) {
+                    Text(
+                        text = task.timestamp.getFormattedDay(),
+                        style = MaterialTheme.typography.headlineSmall.copy(
+                            fontWeight = FontWeight.Bold
+                        ),
+                        color = textColor
+                    )
+                    Text(
+                        modifier = Modifier
+                            .padding(start = 8.dp)
+                            .offset(y = (-2).dp),
+                        text = task.timestamp.getFormattedMonth(),
+                        style = MaterialTheme.typography.bodyMedium.copy(
+                            fontWeight = FontWeight.Normal
+                        ),
+                        color = textColor
+                    )
+                }
+                if (task.statusTask == TaskByStatusSortOrder.ACTIVE.name) {
+                    Row(
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        IconButton(onClick = {
+                            when (event) {
+                                is HomeEvent -> { event.deleteTask(task) }
+                                is TasksEvent -> { event.deleteTask(task) }
+                            }
+                        }) {
+                            Icon(
+                                modifier = Modifier.size(24.dp),
+                                bitmap = ImageBitmap.imageResource(R.drawable.icons8_delete),
+                                contentDescription = null
+                            )
+                        }
+                        IconButton(onClick = {
+                            when (event) {
+                                is HomeEvent -> { event.finishTask(task) }
+                            }
+                             }) {
+                            Icon(
+                                modifier = Modifier.size(24.dp),
+                                bitmap = ImageBitmap.imageResource(R.drawable.icons8_edit),
+                                contentDescription = null
+                            )
+                        }
+                    }
+                } else {
+                    IconButton(onClick = {
+                        when (event) {
+                            is HomeEvent -> { event.deleteTask(task) }
+                            is TasksEvent -> { event.deleteTask(task) }
+                        }
+                    }) {
+                        Icon(
+                            modifier = Modifier.size(24.dp),
+                            bitmap = ImageBitmap.imageResource(R.drawable.icons8_delete),
+                            contentDescription = null
+                        )
+                    }
+                }
             }
 
             HorizontalDivider(

@@ -23,7 +23,8 @@ fun TaskItemList(
     tasks: LazyPagingItems<Task>,
     onClick: (Task) -> Unit,
     paddingValues: PaddingValues,
-    onTaskChecked: (Task) -> Unit
+    onTaskChecked: (Task) -> Unit,
+    event: Any
 ) {
     LazyColumn(
         modifier = modifier,
@@ -52,7 +53,8 @@ fun TaskItemList(
                         shape = RoundedCornerShape(
                             topStart = 0.dp, topEnd = 12.dp,
                             bottomStart = 0.dp, bottomEnd = 12.dp
-                        )
+                        ),
+                        event = event
                     )
                 }
             }

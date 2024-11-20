@@ -33,7 +33,8 @@ import com.example.simplifiedcrm.ui.screens.component.TaskTopBar
 @Composable
 fun TasksScreen(
     viewModel: TasksViewModel = hiltViewModel(),
-    paddingValues: PaddingValues
+    paddingValues: PaddingValues,
+    event: TasksEvent
 ) {
 
     val taskList = viewModel.taskList.collectAsLazyPagingItems()
@@ -77,7 +78,8 @@ fun TasksScreen(
                 modifier = Modifier.fillMaxWidth(),
                 tasks = taskList,
                 onClick = viewModel::setDialog,
-                paddingValues = paddingValues
+                paddingValues = paddingValues,
+                event = event
             )
         }
     }
@@ -97,13 +99,15 @@ private fun TasksScreenContent(
     modifier: Modifier = Modifier,
     tasks: LazyPagingItems<Task>,
     onClick: (Task) -> Unit,
-    paddingValues: PaddingValues
+    paddingValues: PaddingValues,
+    event: TasksEvent
 ) {
     TaskItemList(
         modifier = modifier,
         tasks = tasks,
         onClick = onClick,
         paddingValues = paddingValues,
-        onTaskChecked = {}
+        onTaskChecked = {},
+        event = event
     )
 }

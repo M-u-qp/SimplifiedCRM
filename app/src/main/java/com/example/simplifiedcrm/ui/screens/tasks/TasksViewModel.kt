@@ -11,12 +11,13 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.flatMapLatest
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class TasksViewModel @Inject constructor(
     private val appRepository: AppRepository
-) : ViewModel() {
+) : ViewModel(), TasksEvent {
     private val _sortOrder = MutableStateFlow(TaskByStatusSortOrder.DONE)
 
     private val _dialog = MutableStateFlow<Task?>(null)
@@ -35,5 +36,11 @@ class TasksViewModel @Inject constructor(
 
     fun setDialog(task: Task?) {
         _dialog.value = task
+    }
+
+    override fun deleteTask(task: Task) {
+        viewModelScope.launch {
+            appRepository.deleteTask(task)
+        }
     }
 }

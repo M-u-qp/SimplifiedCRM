@@ -165,14 +165,16 @@ fun NavGraph(navController: NavHostController) {
                                 viewModel = viewModel,
                                 navigateToLogin = { navController.navigate(Route.AppStartNavigation.route) },
                                 navigateToSettings = { navController.navigate(Route.SettingsScreen.route) },
-                                paddingValues = paddingValues
+                                paddingValues = paddingValues,
+                                event = viewModel
                             )
                         }
                         composable(route = Route.TasksScreen.route) {
                             val viewModel: TasksViewModel = hiltViewModel()
                             TasksScreen(
                                 viewModel = viewModel,
-                                paddingValues = paddingValues
+                                paddingValues = paddingValues,
+                                event = viewModel
                             )
                         }
                         composable(route = Route.ProfileScreen.route) {

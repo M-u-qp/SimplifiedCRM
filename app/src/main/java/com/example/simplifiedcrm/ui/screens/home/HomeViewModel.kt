@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.cachedIn
 import com.example.simplifiedcrm.R
+import com.example.simplifiedcrm.common.extension.getToLocalDateTime
 import com.example.simplifiedcrm.data.local.database.entity.Task
 import com.example.simplifiedcrm.data.repository.AppRepository
 import com.example.simplifiedcrm.data.repository.UserRepository
@@ -26,7 +27,7 @@ class HomeViewModel @Inject constructor(
     private val appRepository: AppRepository,
     private val userRepository: UserRepository,
     private val notifications: Notifications
-) : ViewModel() {
+) : ViewModel(), HomeEvent {
     private val _task = MutableStateFlow(Task())
     val task = _task.asStateFlow()
 
@@ -61,9 +62,17 @@ class HomeViewModel @Inject constructor(
                 taskId = task.id,
                 taskName = task.productName
             )
-            updateTaskStatus(task)
+            updateTaskStatus(
+                task,
+                TaskByStatusSortOrder.EXPIRED.name
+            )
             replaceTask()
-        } else if (currentTime.after(Date(task.endTime.time - 24 * 60 * 60 * 1000))) {
+        } else if (
+            currentTime.getToLocalDateTime().hour == task.timestamp.getToLocalDateTime().hour &&
+            currentTime.getToLocalDateTime().hour == task.timestamp.getToLocalDateTime().minute &&
+            currentTime.getToLocalDateTime().hour == task.timestamp.getToLocalDateTime().second &&
+            currentTime.after(Date(task.endTime.time - 24 * 60 * 60 * 1000))
+        ) {
             notifications.sendTaskExpirationNotification(
                 context = context,
                 isExpired = false,
@@ -78,13 +87,16 @@ class HomeViewModel @Inject constructor(
         appRepository.insertTask(_task.value)
     }
 
-    private fun updateTaskStatus(task: Task) {
+    private fun updateTaskStatus(
+        task: Task,
+        statusTask: String
+    ) {
         _task.update {
             it.copy(
                 id = task.id,
                 client = task.client,
                 timestamp = task.timestamp,
-                statusTask = TaskByStatusSortOrder.EXPIRED.name,
+                statusTask = statusTask,
                 description = task.description,
                 productName = task.productName,
                 productPrice = task.productPrice,
@@ -124,5 +136,21 @@ class HomeViewModel @Inject constructor(
     fun resetNavigation() {
         _navigateToLogin.value = false
         _navigateToSettings.value = false
+    }
+
+    override fun deleteTask(task: Task) {
+        viewModelScope.launch {
+            appRepository.deleteTask(task)
+        }
+    }
+
+    override fun finishTask(task: Task) {
+        viewModelScope.launch {
+            updateTaskStatus(
+                task,
+                TaskByStatusSortOrder.DONE.name
+            )
+            replaceTask()
+        }
     }
 }

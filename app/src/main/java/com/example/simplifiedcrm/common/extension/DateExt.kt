@@ -1,6 +1,8 @@
 package com.example.simplifiedcrm.common.extension
 
 import java.text.SimpleDateFormat
+import java.time.LocalDateTime
+import java.time.ZoneId
 import java.util.Date
 import java.util.Locale
 
@@ -13,4 +15,7 @@ fun Date.getFormattedDay(): String {
 }
 fun Date.getFormattedMonth(): String {
     return SimpleDateFormat("MMMM", Locale.getDefault()).format(this)
+}
+fun Date.getToLocalDateTime(): LocalDateTime {
+    return toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime()
 }
