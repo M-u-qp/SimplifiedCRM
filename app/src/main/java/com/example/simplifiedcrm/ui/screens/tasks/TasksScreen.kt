@@ -103,6 +103,7 @@ private fun TasksScreenContent(
         modifier = modifier,
         tasks = tasks,
         onClick = onClick,
-        paddingValues = paddingValues
+        paddingValues = paddingValues,
+        onTaskChecked = {}
     )
 }

@@ -33,6 +33,7 @@
     <string name="product">Product</string>
     <string name="delivery">Delivery</string>
     <string name="date_creation">Date of creation</string>
+    <string name="expiration_date">Expiration date</string>
     
     <string name="active">Active</string>
     <string name="expired">Expired</string>
@@ -40,4 +41,9 @@
 
     <string name="current_tasks">Current tasks</string>
     <string name="settings">Settings</string>
+
+    <string name="task_expired">Task has expired</string>
+    <string name="task_will_expire_soon">Task will expire soon</string>
+    <string name="task_expired_24_hours">There are less than 24 hours left before the task expires</string>
+    <string name="task">Task</string>
 </resources>

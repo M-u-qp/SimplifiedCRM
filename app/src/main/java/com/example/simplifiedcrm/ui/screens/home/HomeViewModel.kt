@@ -8,6 +8,7 @@ import com.example.simplifiedcrm.R
 import com.example.simplifiedcrm.data.local.database.entity.Task
 import com.example.simplifiedcrm.data.repository.AppRepository
 import com.example.simplifiedcrm.data.repository.UserRepository
+import com.example.simplifiedcrm.domain.notification.Notifications
 import com.example.simplifiedcrm.ui.screens.component.TaskByStatusSortOrder
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -15,14 +16,20 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.flatMapLatest
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import java.util.Date
 import javax.inject.Inject
 
 @HiltViewModel
 class HomeViewModel @Inject constructor(
     private val appRepository: AppRepository,
-    private val userRepository: UserRepository
+    private val userRepository: UserRepository,
+    private val notifications: Notifications
 ) : ViewModel() {
+    private val _task = MutableStateFlow(Task())
+    val task = _task.asStateFlow()
+
     private val _activeTaskStatus = MutableStateFlow(TaskByStatusSortOrder.ACTIVE)
     private val _sortOrder = MutableStateFlow("")
 
@@ -42,6 +49,51 @@ class HomeViewModel @Inject constructor(
             .cachedIn(viewModelScope)
     }
 
+    suspend fun checkTasksStatus(
+        context: Context,
+        task: Task
+    ) {
+        val currentTime = Date()
+        if (currentTime.after(task.endTime)) {
+            notifications.sendTaskExpirationNotification(
+                context = context,
+                isExpired = true,
+                taskId = task.id,
+                taskName = task.productName
+            )
+            updateTaskStatus(task)
+            replaceTask()
+        } else if (currentTime.after(Date(task.endTime.time - 24 * 60 * 60 * 1000))) {
+            notifications.sendTaskExpirationNotification(
+                context = context,
+                isExpired = false,
+                taskId = task.id,
+                taskName = task.productName
+            )
+        }
+
+    }
+
+    private suspend fun replaceTask() {
+        appRepository.insertTask(_task.value)
+    }
+
+    private fun updateTaskStatus(task: Task) {
+        _task.update {
+            it.copy(
+                id = task.id,
+                client = task.client,
+                timestamp = task.timestamp,
+                statusTask = TaskByStatusSortOrder.EXPIRED.name,
+                description = task.description,
+                productName = task.productName,
+                productPrice = task.productPrice,
+                delivery = task.delivery,
+                endTime = task.endTime
+            )
+        }
+    }
+
     fun dropDownItemSelected(context: Context) {
         viewModelScope.launch {
             val signOut = context.getString(R.string.sign_out)
@@ -52,6 +104,7 @@ class HomeViewModel @Inject constructor(
                     userRepository.signOut()
                     _navigateToLogin.value = true
                 }
+
                 settings -> {
                     _sortOrder.value = ""
                     _navigateToSettings.value = true

@@ -11,6 +11,8 @@ import androidx.room.Room
 import com.example.simplifiedcrm.data.local.database.TaskDao
 import com.example.simplifiedcrm.data.local.database.TaskDatabase
 import com.example.simplifiedcrm.data.local.database.TaskDatabase.Companion.TASK_DB_NAME
+import com.example.simplifiedcrm.data.notification.NotificationsImpl
+import com.example.simplifiedcrm.domain.notification.Notifications
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -28,6 +30,10 @@ import javax.inject.Singleton
     companion object {
         private const val USER_PREFERENCES = "user_preferences"
     }
+
+    @Provides
+    @Singleton
+    fun provideNotification(): Notifications =  NotificationsImpl()
 
     @Provides
     @Singleton

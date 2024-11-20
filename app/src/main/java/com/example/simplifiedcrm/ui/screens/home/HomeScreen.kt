@@ -13,6 +13,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
@@ -29,6 +30,7 @@ import com.example.simplifiedcrm.data.local.database.entity.Task
 import com.example.simplifiedcrm.ui.screens.component.TaskInfoDialog
 import com.example.simplifiedcrm.ui.screens.component.TaskItemList
 import com.example.simplifiedcrm.ui.screens.component.TaskTopBar
+import kotlinx.coroutines.launch
 
 @Composable
 fun HomeScreen(
@@ -38,6 +40,7 @@ fun HomeScreen(
     paddingValues: PaddingValues
 ) {
     val context = LocalContext.current
+    val scope = rememberCoroutineScope()
     val taskList = viewModel.taskList.collectAsLazyPagingItems()
     var dropDownExpended by rememberSaveable { mutableStateOf(false) }
     val signOut = stringResource(id = R.string.sign_out)
@@ -93,7 +96,15 @@ fun HomeScreen(
                 modifier = Modifier.fillMaxWidth(),
                 tasks = taskList,
                 onClick = viewModel::setDialog,
-                paddingValues = paddingValues
+                paddingValues = paddingValues,
+                onTaskChecked = {
+                    scope.launch {
+                        viewModel.checkTasksStatus(
+                            context = context,
+                            task = it
+                        )
+                    }
+                }
             )
         }
 
@@ -113,12 +124,14 @@ private fun HomeScreenContent(
     modifier: Modifier = Modifier,
     tasks: LazyPagingItems<Task>,
     onClick: (Task) -> Unit,
-    paddingValues: PaddingValues
+    paddingValues: PaddingValues,
+    onTaskChecked: (Task) -> Unit
 ) {
     TaskItemList(
         modifier = modifier,
         paddingValues = paddingValues,
         tasks = tasks,
-        onClick = onClick
+        onClick = onClick,
+        onTaskChecked = onTaskChecked
     )
 }

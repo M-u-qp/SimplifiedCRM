@@ -37,8 +37,8 @@ fun TaskCard(
     )
     val expiredColors = Triple(
         MaterialTheme.colorScheme.error,
-        MaterialTheme.colorScheme.onSurface,
-        MaterialTheme.colorScheme.onSurface
+        MaterialTheme.colorScheme.surface,
+        MaterialTheme.colorScheme.surface
     )
     val doneColors = Triple(
         MaterialTheme.colorScheme.primaryContainer,
@@ -77,7 +77,7 @@ fun TaskCard(
                     style = MaterialTheme.typography.headlineSmall.copy(
                         fontWeight = FontWeight.Bold
                     ),
-                    color = MaterialTheme.colorScheme.secondary
+                    color = textColor
                 )
                 Text(
                     modifier = Modifier.offset(y = (-2).dp),
@@ -85,7 +85,7 @@ fun TaskCard(
                     style = MaterialTheme.typography.bodyMedium.copy(
                         fontWeight = FontWeight.Normal
                     ),
-                    color = MaterialTheme.colorScheme.secondary
+                    color = textColor
                 )
             }
 
@@ -104,7 +104,7 @@ fun TaskCard(
                     style = MaterialTheme.typography.bodyMedium,
                     maxLines = 1,
                     overflow = TextOverflow.Ellipsis,
-                    color = MaterialTheme.colorScheme.secondary
+                    color = textColor
                 )
                 Text(
                     text = task.productPrice.toString(),
@@ -129,7 +129,7 @@ fun TaskCard(
                     style = MaterialTheme.typography.bodyMedium,
                     maxLines = 1,
                     overflow = TextOverflow.Ellipsis,
-                    color = MaterialTheme.colorScheme.secondary
+                    color = textColor
                 )
                 Text(
                     text = task.client.phone,

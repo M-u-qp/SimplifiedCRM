@@ -38,6 +38,8 @@ class TaskCreationViewModel @Inject constructor(
             if (task.value.productName.isBlank() || task.value.productPrice == 0L) {
                 _error.value = cannotBeEmpty
             } else {
+                val minEndTime = Date(Date().time + 24 * 60 * 60 * 1000)
+                updateEndTime(minEndTime)
                 appRepository.insertTask(task.value)
                 _navigateToHome.value = true
             }
@@ -96,5 +98,9 @@ class TaskCreationViewModel @Inject constructor(
 
     override fun updateTimestamp(date: Date) {
         _task.update { it.copy(timestamp = date) }
+    }
+
+    override fun updateEndTime(date: Date) {
+        _task.update { it.copy(endTime = date) }
     }
 }

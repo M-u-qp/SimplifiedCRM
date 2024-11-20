@@ -94,6 +94,8 @@ fun TaskInfoDialog(
 
                 HorizontalDivider()
                 PairItemsInRow(category = R.string.date_creation, item = task.timestamp.getFormattedDate())
+                HorizontalDivider()
+                PairItemsInRow(category = R.string.expiration_date, item = task.endTime.getFormattedDate())
             }
         }
     }

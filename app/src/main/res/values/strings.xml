@@ -33,6 +33,7 @@
     <string name="product">Товар</string>
     <string name="delivery">Доставка</string>
     <string name="date_creation">Дата создания</string>
+    <string name="expiration_date">Дата окончания</string>
 
     <string name="active">Активные</string>
     <string name="expired">Просроченные</string>
@@ -40,4 +41,9 @@
 
     <string name="current_tasks">Текущие задачи</string>
     <string name="settings">Настройки</string>
+    
+    <string name="task_expired">Задача просрочена</string>
+    <string name="task_will_expire_soon">Время задачи подходит к концу</string>
+    <string name="task_expired_24_hours">До истечения задачи осталось менее 24 часов</string>
+    <string name="task">Задача</string>
 </resources>
