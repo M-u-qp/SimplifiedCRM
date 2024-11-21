@@ -48,7 +48,7 @@ fun TaskItemList(
                         task = task,
                         modifier = Modifier
                             .padding(end = 16.dp)
-                            .padding(vertical = 6.dp)
+                            .padding(vertical = 12.dp)
                             .fillMaxWidth()
                             .clickable { onClick(task) },
                         shape = RoundedCornerShape(

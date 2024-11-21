@@ -47,7 +47,7 @@ fun TaskCard(
     val activeColors = Triple(
         MaterialTheme.colorScheme.primary,
         MaterialTheme.colorScheme.tertiary,
-        MaterialTheme.colorScheme.tertiary
+        MaterialTheme.colorScheme.onSurface
     )
     val expiredColors = Triple(
         MaterialTheme.colorScheme.error,
@@ -56,8 +56,8 @@ fun TaskCard(
     )
     val doneColors = Triple(
         MaterialTheme.colorScheme.primaryContainer,
-        MaterialTheme.colorScheme.onTertiary,
-        MaterialTheme.colorScheme.onTertiary
+        MaterialTheme.colorScheme.surface,
+        MaterialTheme.colorScheme.surface
     )
     val (backgroundColor, textColor, borderColor) = task.statusTask.getColors(
         activeColors,
@@ -83,12 +83,12 @@ fun TaskCard(
         }
     }
     ElevatedCard(
-        modifier = modifier
-            .border(
-                width = 1.dp,
-                color = borderColor,
-                shape = shape
-            ),
+        modifier = modifier,
+//            .border(
+//                width = 1.dp,
+//                color = borderColor,
+//                shape = shape
+//            ),
         shape = shape,
         elevation = CardDefaults.elevatedCardElevation(defaultElevation = 2.dp),
         colors = CardDefaults.elevatedCardColors(containerColor = backgroundColor)
@@ -133,14 +133,16 @@ fun TaskCard(
                             Icon(
                                 modifier = Modifier.size(24.dp),
                                 bitmap = ImageBitmap.imageResource(R.drawable.icons8_delete),
-                                contentDescription = null
+                                contentDescription = null,
+                                tint = borderColor
                             )
                         }
                         IconButton(onClick = { isVisibleFinishDialog = !isVisibleFinishDialog }) {
                             Icon(
                                 modifier = Modifier.size(24.dp),
                                 bitmap = ImageBitmap.imageResource(R.drawable.icons8_moving),
-                                contentDescription = null
+                                contentDescription = null,
+                                tint = borderColor
                             )
                         }
                     }
@@ -149,7 +151,8 @@ fun TaskCard(
                         Icon(
                             modifier = Modifier.size(24.dp),
                             bitmap = ImageBitmap.imageResource(R.drawable.icons8_delete),
-                            contentDescription = null
+                            contentDescription = null,
+                            tint = borderColor
                         )
                     }
                 }

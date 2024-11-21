@@ -4,10 +4,8 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -57,18 +55,7 @@ fun ProfileScreen(
             contentAlignment = Alignment.Center
         ) {
             Column {
-                Text(
-                    text = stringResource(id = R.string.profile),
-                    style = MaterialTheme.typography.titleSmall
-                )
-                Button(onClick = {
-                    viewModel.signOut()
-                }) {
-                    Text(
-                        text = stringResource(id = R.string.sign_out),
-                        style = MaterialTheme.typography.titleSmall
-                    )
-                }
+
             }
         }
     }

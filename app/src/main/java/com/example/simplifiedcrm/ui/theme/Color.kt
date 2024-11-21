@@ -26,9 +26,9 @@ import androidx.compose.ui.graphics.Color
 //val light_onSurfaceVariant = Color(0xFF4F5253)
 //val light_green = Color(0xFF6DECA8)
 
-val dark_primary = Color(0xFF0B5FA5)
+val dark_primary = Color(0xFF004279)
 val dark_onPrimary = Color(0xFF000000)
-val dark_primaryContainer = Color(0xFF043C6B)
+val dark_primaryContainer = Color(0xFF90B7D6)
 val dark_onPrimaryContainer = Color(0xFFD6E6F7)
 val dark_secondary = Color(0xFFBBC6D1)
 val dark_onSecondary = Color(0xFF2A353F)
