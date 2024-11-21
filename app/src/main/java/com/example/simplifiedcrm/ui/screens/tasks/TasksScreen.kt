@@ -79,7 +79,7 @@ fun TasksScreen(
                 tasks = taskList,
                 onClick = viewModel::setDialog,
                 paddingValues = paddingValues,
-                event = event
+                onDelete = { event.deleteTask(it) }
             )
         }
     }
@@ -100,7 +100,7 @@ private fun TasksScreenContent(
     tasks: LazyPagingItems<Task>,
     onClick: (Task) -> Unit,
     paddingValues: PaddingValues,
-    event: TasksEvent
+    onDelete: (Task) -> Unit
 ) {
     TaskItemList(
         modifier = modifier,
@@ -108,6 +108,7 @@ private fun TasksScreenContent(
         onClick = onClick,
         paddingValues = paddingValues,
         onTaskChecked = {},
-        event = event
+        onDelete = onDelete,
+        onFinish = {}
     )
 }

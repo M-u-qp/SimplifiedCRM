@@ -32,10 +32,10 @@ class HomeViewModel @Inject constructor(
     val task = _task.asStateFlow()
 
     private val _activeTaskStatus = MutableStateFlow(TaskByStatusSortOrder.ACTIVE)
-    private val _sortOrder = MutableStateFlow("")
+    private val _selectedSortOrder = MutableStateFlow("")
 
-    private val _dialog = MutableStateFlow<Task?>(null)
-    val dialog = _dialog.asStateFlow()
+    private val _taskDialog = MutableStateFlow<Task?>(null)
+    val taskDialog = _taskDialog.asStateFlow()
 
     private val _navigateToLogin = MutableStateFlow(false)
     val navigateToLogin: StateFlow<Boolean> = _navigateToLogin
@@ -110,27 +110,27 @@ class HomeViewModel @Inject constructor(
         viewModelScope.launch {
             val signOut = context.getString(R.string.sign_out)
             val settings = context.getString(R.string.settings)
-            when (_sortOrder.value) {
+            when (_selectedSortOrder.value) {
                 signOut -> {
-                    _sortOrder.value = ""
+                    _selectedSortOrder.value = ""
                     userRepository.signOut()
                     _navigateToLogin.value = true
                 }
 
                 settings -> {
-                    _sortOrder.value = ""
+                    _selectedSortOrder.value = ""
                     _navigateToSettings.value = true
                 }
             }
         }
     }
 
-    fun setSortOrder(sortOrder: String) {
-        _sortOrder.value = sortOrder
+    fun setSelectedSortOrder(sortOrder: String) {
+        _selectedSortOrder.value = sortOrder
     }
 
-    fun setDialog(task: Task?) {
-        _dialog.value = task
+    fun setTaskDialog(task: Task?) {
+        _taskDialog.value = task
     }
 
     fun resetNavigation() {

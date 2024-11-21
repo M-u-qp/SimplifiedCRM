@@ -50,4 +50,8 @@
     <string name="task_will_expire_soon">Task will expire soon</string>
     <string name="task_expired_24_hours">There are less than 24 hours left before the task expires</string>
     <string name="task">Task</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
+    <string name="delete_task">Delete a task?</string>
+    <string name="finish_task">Finish a task?</string>
 </resources>

@@ -16,11 +16,17 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.res.imageResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
@@ -29,15 +35,14 @@ import com.example.simplifiedcrm.common.extension.getColors
 import com.example.simplifiedcrm.common.extension.getFormattedDay
 import com.example.simplifiedcrm.common.extension.getFormattedMonth
 import com.example.simplifiedcrm.data.local.database.entity.Task
-import com.example.simplifiedcrm.ui.screens.home.HomeEvent
-import com.example.simplifiedcrm.ui.screens.tasks.TasksEvent
 
 @Composable
 fun TaskCard(
     modifier: Modifier = Modifier,
     shape: Shape,
     task: Task,
-    event: Any
+    onDelete: (Task) -> Unit,
+    onFinish: (Task) -> Unit
 ) {
     val activeColors = Triple(
         MaterialTheme.colorScheme.primary,
@@ -60,6 +65,23 @@ fun TaskCard(
         doneColors
     )
 
+    var isVisibleDeleteDialog by remember { mutableStateOf(false) }
+    var responseDeleteDialog by remember { mutableStateOf(false) }
+    var isVisibleFinishDialog by remember { mutableStateOf(false) }
+    var responseFinishDialog by remember { mutableStateOf(false) }
+
+    LaunchedEffect(key1 = responseDeleteDialog) {
+        if (responseDeleteDialog) {
+            onDelete(task)
+            responseDeleteDialog = false
+        }
+    }
+    LaunchedEffect(key1 = responseFinishDialog) {
+        if (responseFinishDialog) {
+            onFinish(task)
+            responseFinishDialog = false
+        }
+    }
     ElevatedCard(
         modifier = modifier
             .border(
@@ -107,37 +129,23 @@ fun TaskCard(
                     Row(
                         verticalAlignment = Alignment.CenterVertically
                     ) {
-                        IconButton(onClick = {
-                            when (event) {
-                                is HomeEvent -> { event.deleteTask(task) }
-                                is TasksEvent -> { event.deleteTask(task) }
-                            }
-                        }) {
+                        IconButton(onClick = { isVisibleDeleteDialog = !isVisibleDeleteDialog }) {
                             Icon(
                                 modifier = Modifier.size(24.dp),
                                 bitmap = ImageBitmap.imageResource(R.drawable.icons8_delete),
                                 contentDescription = null
                             )
                         }
-                        IconButton(onClick = {
-                            when (event) {
-                                is HomeEvent -> { event.finishTask(task) }
-                            }
-                             }) {
+                        IconButton(onClick = { isVisibleFinishDialog = !isVisibleFinishDialog }) {
                             Icon(
                                 modifier = Modifier.size(24.dp),
-                                bitmap = ImageBitmap.imageResource(R.drawable.icons8_edit),
+                                bitmap = ImageBitmap.imageResource(R.drawable.icons8_moving),
                                 contentDescription = null
                             )
                         }
                     }
                 } else {
-                    IconButton(onClick = {
-                        when (event) {
-                            is HomeEvent -> { event.deleteTask(task) }
-                            is TasksEvent -> { event.deleteTask(task) }
-                        }
-                    }) {
+                    IconButton(onClick = { isVisibleDeleteDialog = !isVisibleDeleteDialog }) {
                         Icon(
                             modifier = Modifier.size(24.dp),
                             bitmap = ImageBitmap.imageResource(R.drawable.icons8_delete),
@@ -195,6 +203,21 @@ fun TaskCard(
                         fontWeight = FontWeight.Bold
                     ),
                     color = textColor
+                )
+            }
+
+            if(isVisibleDeleteDialog) {
+                QuestionDialog(
+                    isVisibleDialog = { isVisibleDeleteDialog = it },
+                    onClick = { responseDeleteDialog = it },
+                    questionText = stringResource(id = R.string.delete_task)
+                )
+            }
+            if(isVisibleFinishDialog) {
+                QuestionDialog(
+                    isVisibleDialog = { isVisibleFinishDialog = it },
+                    onClick = { responseFinishDialog = it },
+                    questionText = stringResource(id = R.string.finish_task)
                 )
             }
         }

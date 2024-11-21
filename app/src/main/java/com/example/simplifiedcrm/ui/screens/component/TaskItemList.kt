@@ -24,7 +24,8 @@ fun TaskItemList(
     onClick: (Task) -> Unit,
     paddingValues: PaddingValues,
     onTaskChecked: (Task) -> Unit,
-    event: Any
+    onDelete: (Task) -> Unit,
+    onFinish: (Task) -> Unit
 ) {
     LazyColumn(
         modifier = modifier,
@@ -54,7 +55,8 @@ fun TaskItemList(
                             topStart = 0.dp, topEnd = 12.dp,
                             bottomStart = 0.dp, bottomEnd = 12.dp
                         ),
-                        event = event
+                        onDelete = onDelete,
+                        onFinish = onFinish
                     )
                 }
             }

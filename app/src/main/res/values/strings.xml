@@ -50,4 +50,8 @@
     <string name="task_will_expire_soon">Время задачи подходит к концу</string>
     <string name="task_expired_24_hours">До истечения задачи осталось менее 24 часов</string>
     <string name="task">Задача</string>
+    <string name="yes">Да</string>
+    <string name="no">Нет</string>
+    <string name="delete_task">Удалить задачу?</string>
+    <string name="finish_task">Завершить задачу?</string>
 </resources>

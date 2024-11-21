@@ -81,7 +81,7 @@ fun HomeScreen(
                     externalDropDownExpended = dropDownExpended,
                     innerDropDownExpended = { dropDownExpended = it },
                     sortOrderList = sortOrderList,
-                    sortOrderSelected = viewModel::setSortOrder,
+                    sortOrderSelected = viewModel::setSelectedSortOrder,
                     onClickSelectedItemDropDownList = { viewModel.dropDownItemSelected(context) }
                 )
             }
@@ -96,7 +96,7 @@ fun HomeScreen(
             HomeScreenContent(
                 modifier = Modifier.fillMaxWidth(),
                 tasks = taskList,
-                onClick = viewModel::setDialog,
+                onClick = viewModel::setTaskDialog,
                 paddingValues = paddingValues,
                 onTaskChecked = {
                     scope.launch {
@@ -106,14 +106,15 @@ fun HomeScreen(
                         )
                     }
                 },
-                event = event
+                onDelete = { event.deleteTask(it) },
+                onFinish = { event.finishTask(it) }
             )
         }
 
-        viewModel.dialog.collectAsState().value?.let {
+        viewModel.taskDialog.collectAsState().value?.let {
             TaskInfoDialog(
                 isVisibleDialog = {
-                    viewModel.setDialog(null)
+                    viewModel.setTaskDialog(null)
                 },
                 task = it
             )
@@ -128,7 +129,8 @@ private fun HomeScreenContent(
     onClick: (Task) -> Unit,
     paddingValues: PaddingValues,
     onTaskChecked: (Task) -> Unit,
-    event: HomeEvent
+    onDelete: (Task) -> Unit,
+    onFinish: (Task) -> Unit
 ) {
     TaskItemList(
         modifier = modifier,
@@ -136,6 +138,7 @@ private fun HomeScreenContent(
         tasks = tasks,
         onClick = onClick,
         onTaskChecked = onTaskChecked,
-        event = event
+        onDelete = onDelete,
+        onFinish = onFinish
     )
 }
