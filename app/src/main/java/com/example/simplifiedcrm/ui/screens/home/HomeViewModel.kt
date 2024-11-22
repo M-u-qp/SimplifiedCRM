@@ -70,8 +70,7 @@ class HomeViewModel @Inject constructor(
         } else if (
             currentTime.after(Date(task.endTime.time - 24 * 60 * 60 * 1000)) &&
             currentTime.getToLocalDateTime().hour == task.endTime.getToLocalDateTime().hour &&
-            currentTime.getToLocalDateTime().minute == task.endTime.getToLocalDateTime().minute &&
-            currentTime.getToLocalDateTime().second == task.endTime.getToLocalDateTime().second
+            currentTime.getToLocalDateTime().minute == task.endTime.getToLocalDateTime().minute
         ) {
             notifications.sendTaskExpirationNotification(
                 context = context,
