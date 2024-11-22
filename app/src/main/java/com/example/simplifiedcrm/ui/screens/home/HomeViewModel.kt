@@ -68,10 +68,10 @@ class HomeViewModel @Inject constructor(
             )
             replaceTask()
         } else if (
-            currentTime.getToLocalDateTime().hour == task.timestamp.getToLocalDateTime().hour &&
-            currentTime.getToLocalDateTime().hour == task.timestamp.getToLocalDateTime().minute &&
-            currentTime.getToLocalDateTime().hour == task.timestamp.getToLocalDateTime().second &&
-            currentTime.after(Date(task.endTime.time - 24 * 60 * 60 * 1000))
+            currentTime.after(Date(task.endTime.time - 24 * 60 * 60 * 1000)) &&
+            currentTime.getToLocalDateTime().hour == task.endTime.getToLocalDateTime().hour &&
+            currentTime.getToLocalDateTime().minute == task.endTime.getToLocalDateTime().minute &&
+            currentTime.getToLocalDateTime().second == task.endTime.getToLocalDateTime().second
         ) {
             notifications.sendTaskExpirationNotification(
                 context = context,
@@ -80,7 +80,6 @@ class HomeViewModel @Inject constructor(
                 taskName = task.productName
             )
         }
-
     }
 
     private suspend fun replaceTask() {
