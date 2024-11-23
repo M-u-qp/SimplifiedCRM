@@ -23,7 +23,6 @@ fun TaskItemList(
     tasks: LazyPagingItems<Task>,
     onClick: (Task) -> Unit,
     paddingValues: PaddingValues,
-    onTaskChecked: (Task) -> Unit,
     onDelete: (Task) -> Unit,
     onFinish: (Task) -> Unit
 ) {
@@ -43,7 +42,6 @@ fun TaskItemList(
         } else {
             items(tasks.itemCount) {
                 tasks[it]?.let { task ->
-                    onTaskChecked(task)
                     TaskCard(
                         task = task,
                         modifier = Modifier

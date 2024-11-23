@@ -5,7 +5,6 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.cachedIn
 import com.example.simplifiedcrm.R
-import com.example.simplifiedcrm.common.extension.getToLocalDateTime
 import com.example.simplifiedcrm.data.local.database.entity.Task
 import com.example.simplifiedcrm.data.repository.AppRepository
 import com.example.simplifiedcrm.data.repository.UserRepository
@@ -69,8 +68,7 @@ class HomeViewModel @Inject constructor(
             replaceTask()
         } else if (
             currentTime.after(Date(task.endTime.time - 24 * 60 * 60 * 1000)) &&
-            currentTime.getToLocalDateTime().hour == task.endTime.getToLocalDateTime().hour &&
-            currentTime.getToLocalDateTime().minute == task.endTime.getToLocalDateTime().minute
+            !task.notificationFlag
         ) {
             notifications.sendTaskExpirationNotification(
                 context = context,
@@ -78,11 +76,32 @@ class HomeViewModel @Inject constructor(
                 taskId = task.id,
                 taskName = task.productName
             )
+            updateTaskNotificationFlag(task)
+            replaceTask()
         }
     }
 
     private suspend fun replaceTask() {
         appRepository.insertTask(_task.value)
+    }
+
+    private fun updateTaskNotificationFlag(
+        task: Task
+    ) {
+        _task.update {
+            it.copy(
+                id = task.id,
+                client = task.client,
+                timestamp = task.timestamp,
+                statusTask = task.statusTask,
+                description = task.description,
+                productName = task.productName,
+                productPrice = task.productPrice,
+                delivery = task.delivery,
+                endTime = task.endTime,
+                notificationFlag = true
+            )
+        }
     }
 
     private fun updateTaskStatus(

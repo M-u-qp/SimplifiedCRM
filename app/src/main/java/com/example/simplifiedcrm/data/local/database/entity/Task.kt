@@ -16,7 +16,8 @@ data class Task(
     val productName: String = "",
     val productPrice: Long = 0L,
     val delivery: Delivery = Delivery("",0L),
-    val endTime: Date = Date(Date().time + 24 * 60 * 60 * 1000)
+    val endTime: Date = Date(Date().time + 24 * 60 * 60 * 1000),
+    val notificationFlag: Boolean = false
 )
 
 @Serializable

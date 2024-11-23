@@ -44,6 +44,8 @@ import com.example.simplifiedcrm.ui.screens.profile.ProfileScreen
 import com.example.simplifiedcrm.ui.screens.profile.ProfileViewModel
 import com.example.simplifiedcrm.ui.screens.settings.SettingsScreen
 import com.example.simplifiedcrm.ui.screens.settings.SettingsViewModel
+import com.example.simplifiedcrm.ui.screens.statistics.StatisticsScreen
+import com.example.simplifiedcrm.ui.screens.statistics.StatisticsViewModel
 import com.example.simplifiedcrm.ui.screens.task_creation.TaskCreationScreen
 import com.example.simplifiedcrm.ui.screens.task_creation.TaskCreationViewModel
 import com.example.simplifiedcrm.ui.screens.tasks.TasksScreen
@@ -117,10 +119,10 @@ fun NavGraph(navController: NavHostController) {
                     modifier = Modifier
                         .offset(y = (25).dp)
                         .border(
-                        width = 2.dp,
-                        color = MaterialTheme.colorScheme.tertiary,
-                        shape = MaterialTheme.shapes.medium
-                    ),
+                            width = 2.dp,
+                            color = MaterialTheme.colorScheme.tertiary,
+                            shape = MaterialTheme.shapes.medium
+                        ),
                     shape = MaterialTheme.shapes.medium,
                     onClick = { navController.navigate(Route.TaskCreationScreen.route) },
                     contentColor = MaterialTheme.colorScheme.onPrimary,
@@ -181,7 +183,9 @@ fun NavGraph(navController: NavHostController) {
                             val viewModel: ProfileViewModel = hiltViewModel()
                             ProfileScreen(
                                 viewModel = viewModel,
-                                navigateToLogin = { navController.navigate(Route.AppStartNavigation.route) }
+                                navigateToLogin = { navController.navigate(Route.AppStartNavigation.route) },
+                                navigateToSettings = { navController.navigate(Route.SettingsScreen.route) },
+                                navigateToStatistics = { navController.navigate(Route.StatisticsScreen.route) }
                             )
                         }
                         composable(route = Route.TaskCreationScreen.route) {
@@ -200,8 +204,14 @@ fun NavGraph(navController: NavHostController) {
                                 navigateUp = { navController.navigateUp() }
                             )
                         }
+                        composable(route = Route.StatisticsScreen.route) {
+                            val viewModel: StatisticsViewModel = hiltViewModel()
+                            StatisticsScreen(
+                                viewModel = viewModel,
+                                navigateUp = { navController.navigateUp() }
+                            )
+                        }
                     }
-
                 }
             }
         }

@@ -33,7 +33,6 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.simplifiedcrm.R
 import com.example.simplifiedcrm.data.local.database.entity.Task
-import com.example.simplifiedcrm.ui.screens.component.TaskByStatusSortOrder
 import com.example.simplifiedcrm.ui.screens.component.TaskTopBar
 import com.example.simplifiedcrm.ui.screens.task_creation.component.TaskButton
 import com.example.simplifiedcrm.ui.screens.task_creation.component.TaskCalendar
@@ -72,11 +71,7 @@ fun TaskCreationScreen(
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(horizontal = 24.dp),
-                onClick = {
-                    event.updateTimestamp(Date(System.currentTimeMillis()))
-                    event.updateStatusTask(TaskByStatusSortOrder.ACTIVE.name)
-                    viewModel.createTask()
-                },
+                onClick = {viewModel.createTask() },
                 shape = MaterialTheme.shapes.medium
             ) {
                 Text(

@@ -107,7 +107,6 @@ private fun TasksScreenContent(
         tasks = tasks,
         onClick = onClick,
         paddingValues = paddingValues,
-        onTaskChecked = {},
         onDelete = onDelete,
         onFinish = {}
     )

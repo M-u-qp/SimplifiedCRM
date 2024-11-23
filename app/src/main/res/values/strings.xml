@@ -54,4 +54,6 @@
     <string name="no">Нет</string>
     <string name="delete_task">Удалить задачу?</string>
     <string name="finish_task">Завершить задачу?</string>
+
+    <string name="statistics">Статистика продаж</string>
 </resources>

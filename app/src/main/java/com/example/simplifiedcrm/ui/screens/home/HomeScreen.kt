@@ -13,7 +13,6 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
@@ -30,7 +29,8 @@ import com.example.simplifiedcrm.data.local.database.entity.Task
 import com.example.simplifiedcrm.ui.screens.component.TaskInfoDialog
 import com.example.simplifiedcrm.ui.screens.component.TaskItemList
 import com.example.simplifiedcrm.ui.screens.component.TaskTopBar
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.async
+import kotlinx.coroutines.awaitAll
 
 @Composable
 fun HomeScreen(
@@ -41,7 +41,6 @@ fun HomeScreen(
     event: HomeEvent
 ) {
     val context = LocalContext.current
-    val scope = rememberCoroutineScope()
     val taskList = viewModel.taskList.collectAsLazyPagingItems()
     var dropDownExpended by rememberSaveable { mutableStateOf(false) }
     val signOut = stringResource(id = R.string.sign_out)
@@ -62,6 +61,15 @@ fun HomeScreen(
             navigateToSettings()
             viewModel.resetNavigation()
         }
+    }
+
+    LaunchedEffect(key1 = Unit) {
+        val tasks = (0 until taskList.itemCount).mapNotNull { index ->
+            taskList[index]?.let { task ->
+                async { viewModel.checkTasksStatus(context, task) }
+            }
+        }
+        tasks.awaitAll()
     }
 
     Scaffold(
@@ -98,14 +106,6 @@ fun HomeScreen(
                 tasks = taskList,
                 onClick = viewModel::setTaskDialog,
                 paddingValues = paddingValues,
-                onTaskChecked = {
-                    scope.launch {
-                        viewModel.checkTasksStatus(
-                            context = context,
-                            task = it
-                        )
-                    }
-                },
                 onDelete = { event.deleteTask(it) },
                 onFinish = { event.finishTask(it) }
             )
@@ -128,7 +128,6 @@ private fun HomeScreenContent(
     tasks: LazyPagingItems<Task>,
     onClick: (Task) -> Unit,
     paddingValues: PaddingValues,
-    onTaskChecked: (Task) -> Unit,
     onDelete: (Task) -> Unit,
     onFinish: (Task) -> Unit
 ) {
@@ -137,7 +136,6 @@ private fun HomeScreenContent(
         paddingValues = paddingValues,
         tasks = tasks,
         onClick = onClick,
-        onTaskChecked = onTaskChecked,
         onDelete = onDelete,
         onFinish = onFinish
     )

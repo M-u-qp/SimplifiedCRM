@@ -8,6 +8,7 @@ import androidx.lifecycle.viewModelScope
 import com.example.simplifiedcrm.R
 import com.example.simplifiedcrm.data.local.database.entity.Task
 import com.example.simplifiedcrm.data.repository.AppRepository
+import com.example.simplifiedcrm.ui.screens.component.TaskByStatusSortOrder
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -41,6 +42,8 @@ class TaskCreationViewModel @Inject constructor(
             } else if (task.value.endTime < task.value.timestamp) {
                 _error.value = cannotBeLessCurrent
             } else {
+                updateStatusTask(TaskByStatusSortOrder.ACTIVE.name)
+                updateTimestamp(Date(System.currentTimeMillis()))
                 updateEndTime(task.value.endTime)
                 appRepository.insertTask(task.value)
                 _navigateToHome.value = true

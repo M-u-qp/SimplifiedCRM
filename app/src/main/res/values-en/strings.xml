@@ -54,4 +54,6 @@
     <string name="no">No</string>
     <string name="delete_task">Delete a task?</string>
     <string name="finish_task">Finish a task?</string>
+
+    <string name="statistics">Sales statistics</string>
 </resources>
