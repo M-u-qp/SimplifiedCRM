@@ -67,7 +67,8 @@ class HomeViewModel @Inject constructor(
             )
             replaceTask()
         } else if (
-            currentTime.after(Date(task.endTime.time - 24 * 60 * 60 * 1000)) &&
+            currentTime.after(
+                Date(task.endTime.time - 24 * 60 * 60 * 1000)) &&
             !task.notificationFlag
         ) {
             notifications.sendTaskExpirationNotification(

@@ -11,7 +11,7 @@ import androidx.room.Room
 import com.example.simplifiedcrm.data.local.database.TaskDao
 import com.example.simplifiedcrm.data.local.database.TaskDatabase
 import com.example.simplifiedcrm.data.local.database.TaskDatabase.Companion.TASK_DB_NAME
-import com.example.simplifiedcrm.data.notification.NotificationsImpl
+import com.example.simplifiedcrm.background.notification.NotificationsImpl
 import com.example.simplifiedcrm.domain.notification.Notifications
 import dagger.Module
 import dagger.Provides

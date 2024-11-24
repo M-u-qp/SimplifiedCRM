@@ -17,6 +17,5 @@ interface TaskCreationEvent {
     fun updateDeliveryName(name: String)
     fun updateDeliveryPrice(price: Long)
     fun updateStatusTask(statusTask: String)
-    fun updateTimestamp(date: Date)
     fun updateEndTime(date: Date)
 }

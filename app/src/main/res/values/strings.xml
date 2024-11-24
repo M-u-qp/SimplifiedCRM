@@ -56,4 +56,6 @@
     <string name="finish_task">Завершить задачу?</string>
 
     <string name="statistics">Статистика продаж</string>
+
+    <string name="notifications_disabled">Уведомления отключены</string>
 </resources>

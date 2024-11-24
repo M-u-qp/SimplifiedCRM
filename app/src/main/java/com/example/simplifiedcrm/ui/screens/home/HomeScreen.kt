@@ -63,13 +63,15 @@ fun HomeScreen(
         }
     }
 
-    LaunchedEffect(key1 = Unit) {
-        val tasks = (0 until taskList.itemCount).mapNotNull { index ->
-            taskList[index]?.let { task ->
-                async { viewModel.checkTasksStatus(context, task) }
+    LaunchedEffect(key1 = taskList.itemSnapshotList) {
+        if (taskList.itemSnapshotList.isNotEmpty()) {
+            val tasks = (0 until taskList.itemCount).mapNotNull { index ->
+                taskList[index]?.let { task ->
+                    async { viewModel.checkTasksStatus(context, task) }
+                }
             }
+            tasks.awaitAll()
         }
-        tasks.awaitAll()
     }
 
     Scaffold(

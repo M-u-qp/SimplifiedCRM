@@ -56,4 +56,6 @@
     <string name="finish_task">Finish a task?</string>
 
     <string name="statistics">Sales statistics</string>
+
+    <string name="notifications_disabled">Notifications are disabled for this app</string>
 </resources>

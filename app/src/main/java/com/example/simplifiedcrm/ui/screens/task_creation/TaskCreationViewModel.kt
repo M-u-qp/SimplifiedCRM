@@ -43,8 +43,6 @@ class TaskCreationViewModel @Inject constructor(
                 _error.value = cannotBeLessCurrent
             } else {
                 updateStatusTask(TaskByStatusSortOrder.ACTIVE.name)
-                updateTimestamp(Date(System.currentTimeMillis()))
-                updateEndTime(task.value.endTime)
                 appRepository.insertTask(task.value)
                 _navigateToHome.value = true
             }
@@ -99,10 +97,6 @@ class TaskCreationViewModel @Inject constructor(
 
     override fun updateStatusTask(statusTask: String) {
         _task.update { it.copy(statusTask = statusTask) }
-    }
-
-    override fun updateTimestamp(date: Date) {
-        _task.update { it.copy(timestamp = date) }
     }
 
     override fun updateEndTime(date: Date) {
