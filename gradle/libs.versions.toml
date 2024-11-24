@@ -5,18 +5,19 @@ coreKtx = "1.15.0"
 junit = "4.13.2"
 junitVersion = "1.2.1"
 espressoCore = "3.6.1"
-kotlinxSerializationJson = "1.6.3"
+kotlinxSerializationJson = "1.6.0"
 serialization = "2.0.21"
 lifecycleRuntimeKtx = "2.8.7"
 activityCompose = "1.9.3"
-composeBom = "2024.10.01"
+composeBom = "2024.11.00"
 hilt = "2.49"
 hilt-navigation-compose = "1.2.0"
-navigation-compose = "2.8.3"
-paging = "3.3.2"
+navigation-compose = "2.8.4"
+paging = "3.3.4"
 room = "2.6.1"
 lifecycle = "2.8.7"
 datstore = "1.1.1"
+vico = "2.0.0-beta.3"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -69,6 +70,11 @@ androidx-navigation-compose = { module = "androidx.navigation:navigation-compose
 #datastore
 androidx-datastore-preferences = { module = "androidx.datastore:datastore-preferences", version.ref = "datstore" }
 kotlinx-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "kotlinxSerializationJson" }
+
+#charts
+vico-compose = { group = "com.patrykandpatrick.vico", name = "compose", version.ref = "vico" }
+vico-compose-m3 = { group = "com.patrykandpatrick.vico", name = "compose-m3", version.ref = "vico" }
+vico-core = { group = "com.patrykandpatrick.vico", name = "core", version.ref = "vico" }
 
 
 [plugins]
