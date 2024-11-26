@@ -56,6 +56,8 @@
     <string name="finish_task">Finish a task?</string>
 
     <string name="statistics">Sales statistics</string>
+    <string name="total_sales">The amount of sales per month</string>
+    <string name="rub">rub</string>
 
     <string name="notifications_disabled">Notifications are disabled for this app</string>
 </resources>

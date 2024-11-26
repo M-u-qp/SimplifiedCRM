@@ -1,4 +1,4 @@
-package com.example.simplifiedcrm.ui.screens.statistics.component
+package com.example.simplifiedcrm.ui.screens.statistics.component.charts
 
 import android.text.Layout
 import androidx.compose.material3.MaterialTheme

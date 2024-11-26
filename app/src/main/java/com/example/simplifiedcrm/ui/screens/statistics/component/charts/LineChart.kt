@@ -1,10 +1,10 @@
-package com.example.simplifiedcrm.ui.screens.statistics.component
+package com.example.simplifiedcrm.ui.screens.statistics.component.charts
 
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import com.patrykandpatrick.vico.compose.cartesian.CartesianChartHost
 import com.patrykandpatrick.vico.compose.cartesian.axis.rememberBottom
@@ -14,7 +14,6 @@ import com.patrykandpatrick.vico.compose.cartesian.layer.rememberLine
 import com.patrykandpatrick.vico.compose.cartesian.layer.rememberLineCartesianLayer
 import com.patrykandpatrick.vico.compose.cartesian.rememberCartesianChart
 import com.patrykandpatrick.vico.compose.cartesian.rememberVicoZoomState
-import com.patrykandpatrick.vico.compose.common.data.rememberExtraLambda
 import com.patrykandpatrick.vico.compose.common.fill
 import com.patrykandpatrick.vico.core.cartesian.axis.HorizontalAxis
 import com.patrykandpatrick.vico.core.cartesian.axis.VerticalAxis
@@ -25,11 +24,12 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
 @Composable
-internal fun Chart1(
+internal fun LineChart(
     salesList: List<Long>,
     modifier: Modifier = Modifier
 ) {
     if (salesList.isNotEmpty()) {
+        val x = List(salesList.size) { it }
         val modelProducer = remember { CartesianChartModelProducer() }
         LaunchedEffect(Unit) {
             withContext(Dispatchers.Default) {
@@ -44,6 +44,7 @@ internal fun Chart1(
 
 @Composable
 private fun ComposeChart1(modelProducer: CartesianChartModelProducer, modifier: Modifier) {
+    val chartColor = MaterialTheme.colorScheme.tertiaryContainer
     val marker = rememberMarker()
     CartesianChartHost(
         chart =
@@ -51,7 +52,7 @@ private fun ComposeChart1(modelProducer: CartesianChartModelProducer, modifier: 
             rememberLineCartesianLayer(
                 LineCartesianLayer.LineProvider.series(
                     LineCartesianLayer.rememberLine(
-                        remember { LineCartesianLayer.LineFill.single(fill(Color(0xffa485e0))) }
+                        remember { LineCartesianLayer.LineFill.single(fill(chartColor)) }
                     )
                 )
             ),
@@ -62,15 +63,10 @@ private fun ComposeChart1(modelProducer: CartesianChartModelProducer, modifier: 
                 itemPlacer = remember { HorizontalAxis.ItemPlacer.segmented() },
             ),
             marker = marker,
-            layerPadding = cartesianLayerPadding(scalableStart = 16.dp, scalableEnd = 16.dp),
-            persistentMarkers = rememberExtraLambda(marker) { marker at PERSISTENT_MARKER_X },
+            layerPadding = cartesianLayerPadding(scalableStart = 16.dp, scalableEnd = 16.dp)
         ),
         modelProducer = modelProducer,
         modifier = modifier,
         zoomState = rememberVicoZoomState(zoomEnabled = false),
     )
 }
-
-private const val PERSISTENT_MARKER_X = 7f
-
-private val x = (1..50).toList()
