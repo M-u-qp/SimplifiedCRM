@@ -27,8 +27,15 @@ interface TaskDao {
 
     @Query(
         "SELECT TOTAL(productPrice) FROM task_table WHERE" +
-        "(:fromDate IS NULL OR timestamp >= :fromDate) AND" +
-        "(:toDate IS NULL OR timestamp <= :toDate) "
+                "(:fromDate IS NULL OR timestamp >= :fromDate) AND" +
+                "(:toDate IS NULL OR timestamp <= :toDate) "
     )
     fun getTotalPrice(fromDate: Date?, toDate: Date?): Flow<Long>
+
+    @Query(
+        "SELECT * FROM task_table " +
+                "WHERE (:fromDate IS NULL OR timestamp >= :fromDate) AND" +
+                "(:toDate IS NULL OR timestamp <= :toDate)"
+    )
+    fun getTotalPricePerDay(fromDate: Date?, toDate: Date?): Flow<List<Task>>
 }

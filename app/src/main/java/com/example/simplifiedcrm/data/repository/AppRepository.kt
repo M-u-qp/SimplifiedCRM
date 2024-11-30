@@ -19,6 +19,9 @@ class AppRepository @Inject constructor(
     fun getTotalPrice(fromDate: Date? = null, toDate: Date? = null): Flow<Long> =
         taskDao.getTotalPrice(fromDate, toDate)
 
+    fun getTotalPricePerDay(fromDate: Date? = null, toDate: Date? = null): Flow<List<Task>> =
+        taskDao.getTotalPricePerDay(fromDate, toDate)
+
     fun getSortedPagedTaskByStatus(statusTask: String) =
         Pager(config = PagingConfig(pageSize = 10)) { taskDao.getAllTasksSortByStatus(statusTask) }
 }

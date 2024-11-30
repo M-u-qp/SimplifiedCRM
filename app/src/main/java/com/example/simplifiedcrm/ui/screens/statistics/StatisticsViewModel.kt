@@ -2,10 +2,12 @@ package com.example.simplifiedcrm.ui.screens.statistics
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.simplifiedcrm.common.extension.getDayOfMonth
 import com.example.simplifiedcrm.common.extension.getDaysInMonth
-import com.example.simplifiedcrm.common.extension.getEndOfDay
-import com.example.simplifiedcrm.common.extension.getStartOfDay
+import com.example.simplifiedcrm.common.extension.getEndOfMonth
+import com.example.simplifiedcrm.common.extension.getStartOfMonth
 import com.example.simplifiedcrm.data.repository.AppRepository
+import com.example.simplifiedcrm.ui.screens.component.TaskByStatusSortOrder
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -27,17 +29,16 @@ class StatisticsViewModel @Inject constructor(
 
     private fun getSalesInMonth() {
         viewModelScope.launch {
-            val daysInMonth = Date().getDaysInMonth()
-            val salesList = mutableListOf<Long>()
-            var totalSales = 0L
-
-            daysInMonth.forEach { day ->
-                val startOfDay = day.getStartOfDay()
-                val endOfDay = day.getEndOfDay()
-                val totalPricePerDay = appRepository.getTotalPrice(startOfDay, endOfDay).first()
-                salesList.add(totalPricePerDay)
-                totalSales += totalPricePerDay
+            val startOfMonth = Date().getStartOfMonth()
+            val endOfMonth = Date().getEndOfMonth()
+            val salesList = MutableList(Date().getDaysInMonth().size) { 0L }
+            appRepository.getTotalPricePerDay(startOfMonth, endOfMonth).first().onEach { task ->
+                val dayOfMonth = task.timestamp.getDayOfMonth()
+                if (dayOfMonth in salesList.indices && task.statusTask == TaskByStatusSortOrder.DONE.name) {
+                    salesList[dayOfMonth] += task.productPrice
+                }
             }
+            val totalSales = salesList.sum()
             _state.value = StatisticsState(
                 salesList = salesList,
                 totalSales = totalSales

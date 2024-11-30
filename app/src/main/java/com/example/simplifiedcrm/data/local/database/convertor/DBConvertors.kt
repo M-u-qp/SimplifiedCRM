@@ -36,7 +36,7 @@ object DBConvertors {
     }
 
     @TypeConverter
-    fun fromDateToTimeInMillis(date: Date?): Long? {
-        return date?.time
+    fun fromDateToTimeInMillis(date: Date): Long {
+        return date.time
     }
 }

@@ -78,7 +78,13 @@ fun Date.getDaysInMonth(): List<Date> {
     val localDate = this.toInstant().atZone(ZoneId.systemDefault()).toLocalDate()
     val firstDayOfMonth = localDate.withDayOfMonth(1)
     val lastDayOfMonth = localDate.withDayOfMonth(localDate.lengthOfMonth())
-    return (firstDayOfMonth.dayOfMonth..lastDayOfMonth.dayOfMonth).map {
-        Date.from(firstDayOfMonth.withDayOfMonth(it).atStartOfDay(ZoneId.systemDefault()).toInstant())
+    return (0 until lastDayOfMonth.dayOfMonth + 1).map {
+        Date.from(firstDayOfMonth.plusDays(it.toLong()).atStartOfDay(ZoneId.systemDefault()).toInstant())
     }
+}
+fun Date.getDayOfMonth(): Int {
+    return this.toInstant()
+        .atZone(ZoneId.systemDefault())
+        .toLocalDate()
+        .dayOfMonth
 }
