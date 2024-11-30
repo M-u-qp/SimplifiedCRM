@@ -3,6 +3,7 @@ package com.example.simplifiedcrm.ui.screens.statistics
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -25,12 +26,13 @@ import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.res.imageResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.simplifiedcrm.R
 import com.example.simplifiedcrm.ui.screens.component.TaskTopBar
-import com.example.simplifiedcrm.ui.screens.statistics.component.charts.LineChart
 import com.example.simplifiedcrm.ui.screens.statistics.component.charts.ColumnChart
+import com.example.simplifiedcrm.ui.screens.statistics.component.charts.LineChart
 
 @Composable
 fun StatisticsScreen(
@@ -67,7 +69,10 @@ fun StatisticsScreen(
         ) {
             StatisticsContent(
                 salesList = state.salesList,
-                totalSales = state.totalSales
+                totalSales = state.totalSales,
+                onNextMonth = { viewModel.goToNextMonth() },
+                onPreviousMonth = { viewModel.goToPreviousMonth() },
+                currentSelectDate = state.currentSelectRangeDate
             )
         }
     }
@@ -76,7 +81,10 @@ fun StatisticsScreen(
 @Composable
 private fun StatisticsContent(
     salesList: List<Long>,
-    totalSales: Long
+    totalSales: Long,
+    onNextMonth: () -> Unit,
+    onPreviousMonth: () -> Unit,
+    currentSelectDate: String
 ) {
     var isChangedChart by remember { mutableStateOf(false) }
     var isVisibleDialogPercentage by remember { mutableStateOf(false) }
@@ -145,6 +153,36 @@ private fun StatisticsContent(
                     style = MaterialTheme.typography.titleMedium,
                     color = MaterialTheme.colorScheme.surface
                 )
+            }
+            Row(
+                modifier = Modifier
+                    .padding(top = 20.dp)
+                    .fillMaxWidth(),
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.SpaceBetween
+            ) {
+                IconButton(onClick = onPreviousMonth) {
+                    Icon(
+                        modifier = Modifier.graphicsLayer(rotationZ = 180f),
+                        bitmap = ImageBitmap.imageResource(R.drawable.icons8_next),
+                        contentDescription = null,
+                        tint = MaterialTheme.colorScheme.surface
+                    )
+                }
+                Text(
+                    text = currentSelectDate,
+                    style = MaterialTheme.typography.titleSmall.copy(
+                        fontWeight = FontWeight.Bold
+                    ),
+                    color = MaterialTheme.colorScheme.surface
+                )
+                IconButton(onClick = onNextMonth) {
+                    Icon(
+                        bitmap = ImageBitmap.imageResource(R.drawable.icons8_next),
+                        contentDescription = null,
+                        tint = MaterialTheme.colorScheme.surface
+                    )
+                }
             }
         }
     }
