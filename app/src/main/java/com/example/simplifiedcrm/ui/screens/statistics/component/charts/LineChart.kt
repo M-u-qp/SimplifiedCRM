@@ -24,22 +24,20 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
 @Composable
-internal fun LineChart(
+fun LineChart(
     salesList: List<Long>,
     modifier: Modifier = Modifier
 ) {
-    if (salesList.isNotEmpty()) {
-        val x = List(salesList.size) { it }
-        val modelProducer = remember { CartesianChartModelProducer() }
-        LaunchedEffect(Unit) {
-            withContext(Dispatchers.Default) {
-                modelProducer.runTransaction {
-                    lineSeries { series(x, salesList) }
-                }
+    val x = List(salesList.size) { it }
+    val modelProducer = remember { CartesianChartModelProducer() }
+    LaunchedEffect(salesList) {
+        withContext(Dispatchers.Default) {
+            modelProducer.runTransaction {
+                lineSeries { series(x, salesList) }
             }
         }
-        ComposeChart1(modelProducer, modifier)
     }
+    ComposeChart1(modelProducer, modifier)
 }
 
 @Composable

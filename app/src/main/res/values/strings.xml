@@ -58,6 +58,8 @@
     <string name="statistics">Статистика продаж</string>
     <string name="total_sales">Сумма продаж за месяц</string>
     <string name="rub">руб</string>
+    <string name="percentage_sales">Процент продаж</string>
+    <string name="earned_in_month">Заработано за месяц</string>
 
     <string name="notifications_disabled">Уведомления отключены</string>
 </resources>

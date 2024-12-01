@@ -5,11 +5,14 @@ import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.booleanPreferencesKey
 import androidx.datastore.preferences.core.edit
+import androidx.datastore.preferences.core.floatPreferencesKey
+import androidx.datastore.preferences.core.longPreferencesKey
 import androidx.datastore.preferences.core.stringPreferencesKey
 import com.example.simplifiedcrm.R
 import com.example.simplifiedcrm.data.model.User
 import com.example.simplifiedcrm.data.utils.Result
 import dagger.hilt.android.qualifiers.ApplicationContext
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
 import kotlinx.serialization.encodeToString
@@ -27,6 +30,20 @@ class UserRepository @Inject constructor(
     companion object {
         val USER_DATA = stringPreferencesKey("user_data")
         val USER_SIGN_IN = booleanPreferencesKey("user_sign_in")
+        val SELECTED_PERCENTAGE = floatPreferencesKey("selected_percentage")
+    }
+
+    //Сохранить процент продаж
+    suspend fun saveSelectedPercentage(selectedPercentage: Float) {
+        dataStore.edit { preferences ->
+            preferences[SELECTED_PERCENTAGE] = selectedPercentage
+        }
+    }
+    //Получить процент продаж
+    fun getSelectedPercentage(): Flow<Float> {
+        return dataStore.data.map { preferences ->
+            preferences[SELECTED_PERCENTAGE] ?: 0f
+        }
     }
 
     //Получить всех пользователей

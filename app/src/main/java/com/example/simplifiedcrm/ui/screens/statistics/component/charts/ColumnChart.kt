@@ -21,31 +21,32 @@ import com.patrykandpatrick.vico.core.cartesian.data.columnSeries
 import com.patrykandpatrick.vico.core.cartesian.layer.ColumnCartesianLayer
 import com.patrykandpatrick.vico.core.common.shape.CorneredShape
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.isActive
 import kotlinx.coroutines.withContext
 
-const val TRANSACTION_INTERVAL_MS = 2000L
 private var bottomAxisValueFormatter: CartesianValueFormatter = CartesianValueFormatter { _, x, _ ->
     "${x.toInt() + 1}"
 }
 
 @Composable
-internal fun ColumnChart(
+fun ColumnChart(
     salesList: List<Long>,
     modifier: Modifier
 ) {
     val modelProducer = remember { CartesianChartModelProducer() }
-    LaunchedEffect(Unit) {
+    LaunchedEffect(salesList) {
         withContext(Dispatchers.Default) {
             while (isActive) {
                 modelProducer.runTransaction {
                     columnSeries { series(salesList) }
                 }
                 bottomAxisValueFormatter = CartesianValueFormatter { _, x, _ ->
-                    "${x.toInt().and(salesList.size)}"
+                    if (x.toInt() in salesList.indices) {
+                        "${x.toInt() + 1}"
+                    } else {
+                        "${x.toInt() + 1}"
+                    }
                 }
-                delay(TRANSACTION_INTERVAL_MS)
             }
         }
     }

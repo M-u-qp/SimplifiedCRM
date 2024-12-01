@@ -58,6 +58,8 @@
     <string name="statistics">Sales statistics</string>
     <string name="total_sales">The amount of sales per month</string>
     <string name="rub">rub</string>
+    <string name="percentage_sales">Percentage of sales</string>
+    <string name="earned_in_month">Earned in a month</string>
 
     <string name="notifications_disabled">Notifications are disabled for this app</string>
 </resources>

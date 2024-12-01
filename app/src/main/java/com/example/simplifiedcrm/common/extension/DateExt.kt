@@ -50,14 +50,27 @@ fun Date.getEndOfMonth(year: Int, month: Int): Date {
     )
 }
 
-fun Date.getDaysInMonth(year: Int, month: Int): List<Date> {
-    val firstDayOfMonth = LocalDate.of(year, month, 1)
-    val lastDayOfMonth = firstDayOfMonth.withDayOfMonth(firstDayOfMonth.lengthOfMonth())
-    return (0 until lastDayOfMonth.dayOfMonth + 1).map {
-        Date.from(
-            firstDayOfMonth.plusDays(it.toLong()).atStartOfDay(ZoneId.systemDefault()).toInstant()
-        )
-    }
+fun Date.getDaysInMonth(year: Int? = null, month: Int? = null): List<Date> {
+   return if (year != null && month != null) {
+        val firstDayOfMonth = LocalDate.of(year, month, 1)
+        val lastDayOfMonth = firstDayOfMonth.withDayOfMonth(firstDayOfMonth.lengthOfMonth())
+         (0 until lastDayOfMonth.dayOfMonth + 1).map {
+            Date.from(
+                firstDayOfMonth.plusDays(it.toLong()).atStartOfDay(ZoneId.systemDefault())
+                    .toInstant()
+            )
+        }
+    } else {
+       val localeDate = this.toInstant().atZone(ZoneId.systemDefault()).toLocalDate()
+       val firstDayOfMonth = LocalDate.of(localeDate.year, localeDate.monthValue, 1)
+       val lastDayOfMonth = firstDayOfMonth.withDayOfMonth(firstDayOfMonth.lengthOfMonth())
+       (0 until lastDayOfMonth.dayOfMonth + 1).map {
+           Date.from(
+               firstDayOfMonth.plusDays(it.toLong()).atStartOfDay(ZoneId.systemDefault())
+                   .toInstant()
+           )
+       }
+   }
 }
 
 fun Date.getDayOfMonth(): Int {

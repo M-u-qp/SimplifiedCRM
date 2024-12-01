@@ -18,6 +18,8 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -31,8 +33,10 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.simplifiedcrm.R
 import com.example.simplifiedcrm.ui.screens.component.TaskTopBar
+import com.example.simplifiedcrm.ui.screens.statistics.component.PercentageDialog
 import com.example.simplifiedcrm.ui.screens.statistics.component.charts.ColumnChart
 import com.example.simplifiedcrm.ui.screens.statistics.component.charts.LineChart
+import kotlinx.coroutines.launch
 
 @Composable
 fun StatisticsScreen(
@@ -40,6 +44,7 @@ fun StatisticsScreen(
     navigateUp: () -> Unit
 ) {
     val state = viewModel.state.collectAsState().value
+    val scope = rememberCoroutineScope()
 
     Scaffold(
         topBar = {
@@ -72,7 +77,14 @@ fun StatisticsScreen(
                 totalSales = state.totalSales,
                 onNextMonth = { viewModel.goToNextMonth() },
                 onPreviousMonth = { viewModel.goToPreviousMonth() },
-                currentSelectDate = state.currentSelectRangeDate
+                selectedMonth = state.selectMonth,
+                selectedPercentage = state.selectedPercentage,
+                onSelectedPercentage = {
+                    scope.launch {
+                        viewModel.updateSelectedPercentage(it)
+                    }
+                },
+                earnedInMonth = state.earnedInMonth
             )
         }
     }
@@ -84,9 +96,12 @@ private fun StatisticsContent(
     totalSales: Long,
     onNextMonth: () -> Unit,
     onPreviousMonth: () -> Unit,
-    currentSelectDate: String
+    selectedMonth: String,
+    selectedPercentage: Float,
+    onSelectedPercentage: (Float) -> Unit,
+    earnedInMonth: Long
 ) {
-    var isChangedChart by remember { mutableStateOf(false) }
+    var isChangedChart by rememberSaveable { mutableStateOf(false) }
     var isVisibleDialogPercentage by remember { mutableStateOf(false) }
 
     LazyColumn(
@@ -154,6 +169,23 @@ private fun StatisticsContent(
                     color = MaterialTheme.colorScheme.surface
                 )
             }
+            Box(
+                modifier = Modifier
+                    .padding(top = 12.dp)
+                    .fillMaxWidth()
+            ) {
+                Text(
+                    modifier = Modifier
+                        .padding(6.dp)
+                        .align(Alignment.BottomEnd),
+                    text = stringResource(id = R.string.earned_in_month) +
+                            ": " + earnedInMonth.toString() +
+                            " " +
+                            stringResource(id = R.string.rub),
+                    style = MaterialTheme.typography.titleMedium,
+                    color = MaterialTheme.colorScheme.surface
+                )
+            }
             Row(
                 modifier = Modifier
                     .padding(top = 20.dp)
@@ -170,7 +202,7 @@ private fun StatisticsContent(
                     )
                 }
                 Text(
-                    text = currentSelectDate,
+                    text = selectedMonth,
                     style = MaterialTheme.typography.titleSmall.copy(
                         fontWeight = FontWeight.Bold
                     ),
@@ -183,6 +215,13 @@ private fun StatisticsContent(
                         tint = MaterialTheme.colorScheme.surface
                     )
                 }
+            }
+            if (isVisibleDialogPercentage) {
+                PercentageDialog(
+                    isVisibleDialog = { isVisibleDialogPercentage = it },
+                    onClick = onSelectedPercentage,
+                    selectedPercentage = selectedPercentage
+                )
             }
         }
     }
