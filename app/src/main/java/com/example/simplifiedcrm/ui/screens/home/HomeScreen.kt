@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -103,14 +104,18 @@ fun HomeScreen(
                 .fillMaxSize(),
             contentAlignment = Alignment.Center
         ) {
-            HomeScreenContent(
-                modifier = Modifier.fillMaxWidth(),
-                tasks = taskList,
-                onClick = viewModel::setTaskDialog,
-                paddingValues = paddingValues,
-                onDelete = { event.deleteTask(it) },
-                onFinish = { event.finishTask(it) }
-            )
+            if (taskList.itemSnapshotList.isEmpty()) {
+                EmptyScreen()
+            } else {
+                HomeScreenContent(
+                    modifier = Modifier.fillMaxWidth(),
+                    tasks = taskList,
+                    onClick = viewModel::setTaskDialog,
+                    paddingValues = paddingValues,
+                    onDelete = { event.deleteTask(it) },
+                    onFinish = { event.finishTask(it) }
+                )
+            }
         }
 
         viewModel.taskDialog.collectAsState().value?.let {
@@ -141,4 +146,20 @@ private fun HomeScreenContent(
         onDelete = onDelete,
         onFinish = onFinish
     )
+}
+
+@Composable
+private fun EmptyScreen() {
+    Box(
+        modifier = Modifier
+            .padding(24.dp)
+            .fillMaxSize(),
+        contentAlignment = Alignment.Center
+    ) {
+        Text(
+            text = stringResource(id = R.string.task_not_created),
+            style = MaterialTheme.typography.titleLarge,
+            color = MaterialTheme.colorScheme.tertiary
+        )
+    }
 }

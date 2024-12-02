@@ -45,6 +45,7 @@
 
     <string name="current_tasks">Текущие задачи</string>
     <string name="settings">Настройки</string>
+    <string name="task_not_created">Пока не создано ни одной активной задачи…</string>
     
     <string name="task_expired">Задача просрочена</string>
     <string name="task_will_expire_soon">Время задачи подходит к концу</string>
@@ -62,4 +63,5 @@
     <string name="earned_in_month">Заработано за месяц</string>
 
     <string name="notifications_disabled">Уведомления отключены</string>
+    <string name="permission_not_granted">Разрешение не было предоставлено</string>
 </resources>

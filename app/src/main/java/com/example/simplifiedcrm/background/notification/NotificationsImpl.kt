@@ -91,7 +91,7 @@ class NotificationsImpl : Notifications {
         try {
             alarmManager.setExact(AlarmManager.RTC_WAKEUP, triggerAtMillis, pendingIntent)
         } catch (e: SecurityException) {
-            Toast.makeText(context, "Разрешения не предоставлены", Toast.LENGTH_SHORT).show()
+            Toast.makeText(context, context.getString(R.string.permission_not_granted), Toast.LENGTH_SHORT).show()
         }
     }
 

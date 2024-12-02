@@ -45,6 +45,7 @@
 
     <string name="current_tasks">Current tasks</string>
     <string name="settings">Settings</string>
+    <string name="task_not_created">No active tasks have been created yet…</string>
 
     <string name="task_expired">Task has expired</string>
     <string name="task_will_expire_soon">Task will expire soon</string>
@@ -62,4 +63,5 @@
     <string name="earned_in_month">Earned in a month</string>
 
     <string name="notifications_disabled">Notifications are disabled for this app</string>
+    <string name="permission_not_granted">Permission has not been granted</string>
 </resources>
