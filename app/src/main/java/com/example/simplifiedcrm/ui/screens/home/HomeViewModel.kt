@@ -49,17 +49,20 @@ class HomeViewModel @Inject constructor(
             .cachedIn(viewModelScope)
     }
 
+
+
     suspend fun checkTasksStatus(
         context: Context,
         task: Task
     ) {
         val currentTime = Date()
         if (currentTime.after(task.endTime)) {
-            notifications.sendTaskExpirationNotification(
+            notifications.scheduleTaskExpirationNotification(
                 context = context,
                 isExpired = true,
                 taskId = task.id,
-                taskName = task.productName
+                taskName = task.productName,
+                triggerAtMillis = System.currentTimeMillis()
             )
             updateTaskStatus(
                 task,
@@ -71,11 +74,12 @@ class HomeViewModel @Inject constructor(
                 Date(task.endTime.time - 24 * 60 * 60 * 1000)) &&
             !task.notificationFlag
         ) {
-            notifications.sendTaskExpirationNotification(
+            notifications.scheduleTaskExpirationNotification(
                 context = context,
                 isExpired = false,
                 taskId = task.id,
-                taskName = task.productName
+                taskName = task.productName,
+                triggerAtMillis = task.endTime.time - 24 * 60 * 60 * 1000
             )
             updateTaskNotificationFlag(task)
             replaceTask()

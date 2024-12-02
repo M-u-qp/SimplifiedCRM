@@ -1,12 +1,20 @@
 package com.example.simplifiedcrm.background.notification
 
+import android.app.AlarmManager
 import android.app.NotificationChannel
 import android.app.NotificationManager
+import android.app.PendingIntent
 import android.content.Context
+import android.content.Intent
 import android.os.Build
+import android.provider.Settings
 import android.util.Log
+import android.widget.Toast
 import androidx.core.app.NotificationCompat
 import com.example.simplifiedcrm.R
+import com.example.simplifiedcrm.background.notification.NotificationReceiver.Companion.EXTRA_IS_EXPIRED
+import com.example.simplifiedcrm.background.notification.NotificationReceiver.Companion.EXTRA_TASK_ID
+import com.example.simplifiedcrm.background.notification.NotificationReceiver.Companion.EXTRA_TASK_NAME
 import com.example.simplifiedcrm.domain.notification.Notifications
 
 class NotificationsImpl : Notifications {
@@ -53,6 +61,38 @@ class NotificationsImpl : Notifications {
             .setAutoCancel(true)
 
         notificationManager.notify(taskId, notificationBuilder.build())
+    }
+
+    override fun scheduleTaskExpirationNotification(
+        context: Context,
+        taskId: Int,
+        taskName: String,
+        isExpired: Boolean,
+        triggerAtMillis: Long
+    ) {
+        val alarmManager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+            if (!alarmManager.canScheduleExactAlarms()) {
+                val intent = Intent(Settings.ACTION_REQUEST_SCHEDULE_EXACT_ALARM)
+                context.startActivity(intent)
+                return
+            }
+        }
+        val intent = Intent(context, NotificationReceiver::class.java).apply {
+            putExtra(EXTRA_TASK_ID, taskId)
+            putExtra(EXTRA_TASK_NAME, taskName)
+            putExtra(EXTRA_IS_EXPIRED, isExpired)
+        }
+        val pendingIntent =
+            PendingIntent.getBroadcast(
+                context, taskId, intent, PendingIntent.FLAG_UPDATE_CURRENT or
+                        PendingIntent.FLAG_IMMUTABLE
+            )
+        try {
+            alarmManager.setExact(AlarmManager.RTC_WAKEUP, triggerAtMillis, pendingIntent)
+        } catch (e: SecurityException) {
+            Toast.makeText(context, "Разрешения не предоставлены", Toast.LENGTH_SHORT).show()
+        }
     }
 
     private fun areNotificationsEnabled(context: Context): Boolean {
