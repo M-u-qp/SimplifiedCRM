@@ -25,7 +25,7 @@ import kotlinx.coroutines.isActive
 import kotlinx.coroutines.withContext
 
 private var bottomAxisValueFormatter: CartesianValueFormatter = CartesianValueFormatter { _, x, _ ->
-    "${x.toInt() + 1}"
+    "${x.toInt()}"
 }
 
 @Composable
@@ -41,10 +41,11 @@ fun ColumnChart(
                     columnSeries { series(salesList) }
                 }
                 bottomAxisValueFormatter = CartesianValueFormatter { _, x, _ ->
-                    if (x.toInt() in salesList.indices) {
-                        "${x.toInt() + 1}"
+                    val index = x.toInt()
+                    if (index in salesList.indices) {
+                        (index).toString()
                     } else {
-                        "${x.toInt() + 1}"
+                        " "
                     }
                 }
             }
@@ -74,7 +75,7 @@ private fun ComposeChart2(modelProducer: CartesianChartModelProducer, modifier: 
                 valueFormatter = bottomAxisValueFormatter,
                 itemPlacer =
                 remember {
-                    HorizontalAxis.ItemPlacer.aligned(spacing = 2, addExtremeLabelPadding = true)
+                    HorizontalAxis.ItemPlacer.aligned(spacing = 1, addExtremeLabelPadding = true)
                 },
             ),
             marker = rememberMarker()

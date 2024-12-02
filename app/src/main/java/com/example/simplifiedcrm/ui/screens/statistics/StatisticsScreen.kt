@@ -8,6 +8,9 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.ElevatedCard
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
@@ -115,20 +118,48 @@ private fun StatisticsContent(
         verticalArrangement = Arrangement.spacedBy(6.dp)
     ) {
         item {
-            Box(modifier = Modifier.fillMaxWidth()) {
-                IconButton(
-                    modifier = Modifier.align(Alignment.TopStart),
-                    onClick = { isVisibleDialogPercentage = !isVisibleDialogPercentage }
+            Row(
+                modifier = Modifier
+                    .padding(top = 6.dp)
+                    .fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceBetween,
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Row(
+                    verticalAlignment = Alignment.CenterVertically
                 ) {
-                    Icon(
-                        bitmap = ImageBitmap.imageResource(R.drawable.icons8_percent),
-                        contentDescription = null,
-                        tint = MaterialTheme.colorScheme.surface
-                    )
+                    ElevatedCard(
+                        elevation = CardDefaults.elevatedCardElevation(defaultElevation = 2.dp),
+                        colors = CardDefaults.elevatedCardColors(
+                            containerColor = MaterialTheme.colorScheme.primary
+                        ),
+                        modifier = Modifier,
+                        shape = RoundedCornerShape(
+                            topEnd = 12.dp,
+                            bottomEnd = 12.dp,
+                            topStart = 0.dp,
+                            bottomStart = 0.dp
+                        )
+                    ) {
+                        Text(
+                            modifier = Modifier.padding(12.dp),
+                            text = selectedPercentage.toString(),
+                            style = MaterialTheme.typography.titleSmall,
+                            color = MaterialTheme.colorScheme.secondary
+                        )
+                    }
+                    IconButton(onClick = {
+                        isVisibleDialogPercentage = !isVisibleDialogPercentage
+                    }) {
+                        Icon(
+                            bitmap = ImageBitmap.imageResource(R.drawable.icons8_percent),
+                            contentDescription = null,
+                            tint = MaterialTheme.colorScheme.surface
+                        )
+                    }
                 }
-
                 IconButton(
-                    modifier = Modifier.align(Alignment.TopEnd),
+                    modifier = Modifier,
                     onClick = { isChangedChart = !isChangedChart }
                 ) {
                     Icon(
@@ -152,39 +183,73 @@ private fun StatisticsContent(
                     )
                 }
             }
-            Box(
-                modifier = Modifier
-                    .padding(top = 12.dp)
-                    .fillMaxWidth()
-            ) {
-                Text(
-                    modifier = Modifier
-                        .padding(6.dp)
-                        .align(Alignment.BottomEnd),
-                    text = stringResource(id = R.string.total_sales) +
-                            ": " + totalSales.toString() +
-                            " " +
-                            stringResource(id = R.string.rub),
-                    style = MaterialTheme.typography.titleMedium,
-                    color = MaterialTheme.colorScheme.surface
+            ElevatedCard(
+                elevation = CardDefaults.elevatedCardElevation(defaultElevation = 2.dp),
+                colors = CardDefaults.elevatedCardColors(
+                    containerColor = MaterialTheme.colorScheme.primary
+                ),
+                modifier = Modifier.padding(
+                    top = 30.dp,
+                    start = 20.dp
+                ),
+                shape = RoundedCornerShape(
+                    topEnd = 0.dp,
+                    bottomEnd = 0.dp,
+                    topStart = 12.dp,
+                    bottomStart = 12.dp
                 )
+            ) {
+                Box(
+                    modifier = Modifier
+                        .padding(vertical = 6.dp)
+                        .fillMaxWidth()
+                ) {
+                    Text(
+                        modifier = Modifier
+                            .padding(6.dp)
+                            .align(Alignment.BottomEnd),
+                        text = stringResource(id = R.string.total_sales) +
+                                ": " + totalSales.toString() +
+                                " " +
+                                stringResource(id = R.string.rub),
+                        style = MaterialTheme.typography.titleMedium,
+                        color = MaterialTheme.colorScheme.secondary
+                    )
+                }
             }
-            Box(
-                modifier = Modifier
-                    .padding(top = 12.dp)
-                    .fillMaxWidth()
-            ) {
-                Text(
-                    modifier = Modifier
-                        .padding(6.dp)
-                        .align(Alignment.BottomEnd),
-                    text = stringResource(id = R.string.earned_in_month) +
-                            ": " + earnedInMonth.toString() +
-                            " " +
-                            stringResource(id = R.string.rub),
-                    style = MaterialTheme.typography.titleMedium,
-                    color = MaterialTheme.colorScheme.surface
+            ElevatedCard(
+                elevation = CardDefaults.elevatedCardElevation(defaultElevation = 2.dp),
+                colors = CardDefaults.elevatedCardColors(
+                    containerColor = MaterialTheme.colorScheme.primary
+                ),
+                modifier = Modifier.padding(
+                    top = 10.dp,
+                    start = 20.dp
+                ),
+                shape = RoundedCornerShape(
+                    topEnd = 0.dp,
+                    bottomEnd = 0.dp,
+                    topStart = 12.dp,
+                    bottomStart = 12.dp
                 )
+            ) {
+                Box(
+                    modifier = Modifier
+                        .padding(vertical = 6.dp)
+                        .fillMaxWidth()
+                ) {
+                    Text(
+                        modifier = Modifier
+                            .padding(6.dp)
+                            .align(Alignment.BottomEnd),
+                        text = stringResource(id = R.string.earned_in_month) +
+                                ": " + earnedInMonth.toString() +
+                                " " +
+                                stringResource(id = R.string.rub),
+                        style = MaterialTheme.typography.titleMedium,
+                        color = MaterialTheme.colorScheme.secondary
+                    )
+                }
             }
             Row(
                 modifier = Modifier
