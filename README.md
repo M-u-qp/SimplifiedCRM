@@ -5,6 +5,7 @@
 -Статистика: Приложение предоставляет пользователям возможность отслеживать статистику продаж и заработка, позволяя анализировать эффективность работы и принимать обоснованные бизнес-решения.
 -Технологии: В приложении использовались kotlin coroutines, clean architecture, mvvm, compose, room, hilt, alarm manager.
 ## Screenshots
+<img src="https://github.com/user-attachments/assets/636737f5-381d-4b35-8ce7-62751f9d74bb" alt="" width="300"/>
 <img src="https://github.com/user-attachments/assets/a7e5a3b9-84ed-4765-b9bc-335b80d6ced0" alt="" width="300"/>
 <img src="https://github.com/user-attachments/assets/d655db6f-9a1f-4538-8ccb-3c42964243c8" alt="" width="300"/>
 <img src="https://github.com/user-attachments/assets/046650e9-2f0d-4002-ad88-380d2c06238f" alt="" width="300"/>
